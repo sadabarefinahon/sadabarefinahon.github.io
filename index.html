@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sadab Arefin Ahon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #17181b;
+    --bg-alt: #1e2024;
+    --surface: #232529;
+    --burgundy: #7a1f3d;
+    --burgundy-bright: #b23a5c;
+    --burgundy-dim: #4a1526;
+    --text: #eeece8;
+    --text-muted: #93959c;
+    --text-faint: #5c5e64;
+    --border: rgba(238,236,232,0.08);
+    --max-w: 920px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .wordmark, .nav-links a, .pillar-num, .btn{
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  a{ color: inherit; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- layout shell ---------- */
+  .wrap{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(10px);
+    background: rgba(23,24,27,0.75);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner{
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 18px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .wordmark{
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+  .wordmark span{ color: var(--burgundy-bright); }
+  .nav-links{
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .nav-links a{
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{ color: var(--text); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    padding: 96px 0 88px;
+    overflow: hidden;
+  }
+  #network{
+    position: absolute;
+    top: -10%;
+    right: -12%;
+    width: 62%;
+    height: 130%;
+    opacity: 0.85;
+    pointer-events: none;
+  }
+  .eyebrow{
+    color: var(--burgundy-bright);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0 0 14px;
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 5.4vw, 3.9rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin: 0 0 20px;
+    max-width: 11ch;
+  }
+  .hero p.lede{
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 46ch;
+    margin: 0 0 32px;
+  }
+  .hero-tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag{
+    border: 1px solid var(--border);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    background: var(--surface);
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding: 72px 0; border-top: 1px solid var(--border); }
+  .section-head{ margin-bottom: 40px; max-width: 60ch; }
+  .section-head h2{
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+  }
+  .section-head p{
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 1.02rem;
+  }
+
+  /* ---------- vision pillars ---------- */
+  .pillars{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .pillar{
+    padding: 30px 26px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .pillar:last-child{ border-right: none; }
+  .pillar-num{
+    color: var(--burgundy-bright);
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 14px;
+  }
+  .pillar h3{
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  .pillar p{
+    color: var(--text-muted);
+    font-size: 0.94rem;
+    margin: 0;
+  }
+  .vision-examples{
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .vision-examples .tag{ border-color: var(--burgundy-dim); color: var(--text); }
+
+  /* ---------- focus / interests ---------- */
+  .focus-grid{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .focus-grid h3{
+    font-size: 1.15rem;
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  .focus-grid p{ color: var(--text-muted); margin: 0 0 20px; }
+  .stat-list{ list-style: none; margin: 0; padding: 0; }
+  .stat-list li{
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .stat-list li:last-child{ border-bottom: none; }
+  .stat-list .label{ color: var(--text-muted); font-size: 0.94rem; }
+  .stat-list .value{ font-weight: 600; text-align: right; }
+
+  /* ---------- timeline ---------- */
+  .timeline{ position: relative; padding-left: 32px; }
+  .timeline::before{
+    content: "";
+    position: absolute;
+    left: 5px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: linear-gradient(var(--burgundy), var(--border));
+  }
+  .t-item{ position: relative; padding-bottom: 36px; }
+  .t-item:last-child{ padding-bottom: 0; }
+  .t-item::before{
+    content: "";
+    position: absolute;
+    left: -32px; top: 4px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--burgundy-bright);
+  }
+  .t-item .year{
+    color: var(--burgundy-bright);
+    font-weight: 700;
+    font-size: 0.9rem;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .t-item h3{ margin: 4px 0 6px; font-size: 1.08rem; font-weight: 600; }
+  .t-item p{ margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+
+  /* ---------- divider ---------- */
+  .divider{
+    padding: 56px 0 8px;
+    border-top: 1px solid var(--border);
+  }
+  .divider p{
+    color: var(--text-faint);
+    font-size: 0.92rem;
+    max-width: 52ch;
+  }
+
+  /* ---------- hobbies ---------- */
+  .hobby-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .hobby{
+    background: var(--bg);
+    padding: 26px 20px;
+    transition: background 0.25s ease;
+  }
+  .hobby:hover{ background: var(--bg-alt); }
+  .hobby h3{ font-size: 0.98rem; font-weight: 600; margin: 0 0 8px; }
+  .hobby p{ font-size: 0.86rem; color: var(--text-muted); margin: 0; }
+  .hobby .mark{ color: var(--text-faint); font-size: 0.78rem; display: block; margin-bottom: 10px; }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding: 56px 0 60px;
+    border-top: 1px solid var(--border);
+  }
+  .foot-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  footer h2{
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    font-weight: 700;
+    margin: 0 0 8px;
+    max-width: 14ch;
+  }
+  footer p{ color: var(--text-muted); margin: 0; }
+  .btn{
+    display: inline-block;
+    background: var(--burgundy);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 13px 22px;
+    border-radius: 3px;
+    border: 1px solid var(--burgundy-bright);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .btn:hover{ background: var(--burgundy-bright); transform: translateY(-1px); }
+  .fine{ margin-top: 40px; color: var(--text-faint); font-size: 0.82rem; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 760px){
+    .focus-grid{ grid-template-columns: 1fr; gap: 32px; }
+    .pillars{ grid-template-columns: 1fr; }
+    .pillar{ border-right: none; border-bottom: 1px solid var(--border); }
+    .pillar:last-child{ border-bottom: none; }
+    .hobby-grid{ grid-template-columns: 1fr 1fr; }
+    #network{ width: 90%; opacity: 0.4; }
+    .nav-links{ display: none; }
+  }
+
+  :focus-visible{ outline: 2px solid var(--burgundy-bright); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="wordmark">S<span>.</span>A<span>.</span>Ahon</div>
+    <ul class="nav-links">
+      <li><a href="#focus">Focus</a></li>
+      <li><a href="#academics">Academics</a></li>
+      <li><a href="#hobbies">Beyond code</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <canvas id="network"></canvas>
+  <div class="wrap">
+    <p class="eyebrow">CSE, Southeast University · Dhaka</p>
+    <h1>Sadab Arefin Ahon</h1>
+    <p class="lede">First-year computer science student in Dhaka, currently mapping the wiring behind every system I use — from how a program is built to how it thinks.</p>
+    <div class="hero-tags">
+      <span class="tag">Southeast University — CSE</span>
+      <span class="tag">Systems &amp; algorithms</span>
+      <span class="tag">ENTP</span>
+      <span class="tag">Est. 2006, Dhaka</span>
+    </div>
+  </div>
+</header>
+
+<section id="vision">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What I'm actually building toward</h2>
+      <p>Any project I take seriously has to clear three bars at once. Miss one, and it's just a hobby with extra steps.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <h3>Solves something real</h3>
+        <p>Not a demo. A problem that's actually stalling people right now, tackled at the root instead of the symptom.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <h3>Affordable, or the absolute best</h3>
+        <p>No comfortable middle. It should either reach almost anyone, or be the uncompromised, top-tier version nothing else touches.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <h3>Outlives me</h3>
+        <p>Built to still matter a generation from now — infrastructure, not a feature that gets deprecated in two years.</p>
+      </div>
+    </div>
+    <div class="vision-examples">
+      <span class="tag">Direct neural–code interfaces</span>
+      <span class="tag">Biological data centers</span>
+      <span class="tag">Subconscious background processing</span>
+      <span class="tag">Bio-digital firewalls</span>
+    </div>
+  </div>
+</section>
+
+<section id="focus">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Where the attention actually goes</h2>
+      <p>Everything else in my life has been a rotation of interests. Tech is the one thing that stuck and kept pulling harder.</p>
+    </div>
+    <div class="focus-grid">
+      <div>
+        <h3>What pulls me in</h3>
+        <p>Not one layer of tech, but the connections between them — how a piece of code becomes a running system, how that system is architected to survive load, and how algorithms quietly decide outcomes underneath it all. Data is the material; figuring out how it's shaped, moved, and protected is the actual craft.</p>
+        <h3>How I think</h3>
+        <p>ENTP, which mostly means I get more energy from arguing an idea from five angles than from executing the first one that works. Useful for design, occasionally a liability for finishing things — which is exactly why the CSE degree exists.</p>
+      </div>
+      <ul class="stat-list">
+        <li><span class="label">Program</span><span class="value">B.Sc. in CSE</span></li>
+        <li><span class="label">Institution</span><span class="value">Southeast University</span></li>
+        <li><span class="label">Standing</span><span class="value">1st year, 1st semester</span></li>
+        <li><span class="label">Core interest</span><span class="value">Systems &amp; algorithms</span></li>
+        <li><span class="label">Based in</span><span class="value">Dhaka, Bangladesh</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="academics">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The path here</h2>
+      <p>Three checkpoints, each one narrowing further toward the same direction.</p>
+    </div>
+    <div class="timeline">
+      <div class="t-item">
+        <span class="year">2023</span>
+        <h3>SSC — Ideal School and College</h3>
+        <p>Graduated with a GPA of 5.00, while running the art club as its organizing secretary on the side.</p>
+      </div>
+      <div class="t-item">
+        <span class="year">2025</span>
+        <h3>HSC — Dhaka Imperial College</h3>
+        <p>Graduated with a GPA of 4.42, closing out the widest phase of hobby experimentation before narrowing focus.</p>
+      </div>
+      <div class="t-item">
+        <span class="year">2025 — present</span>
+        <h3>B.Sc. in CSE — Southeast University</h3>
+        <p>First semester of first year. The formal start of turning tech curiosity into an actual discipline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap divider">
+  <p>Before the degree, there was a decade of making things for their own sake. It hasn't been retired — just moved to second priority.</p>
+</div>
+
+<section id="hobbies" style="border-top:none; padding-top:24px;">
+  <div class="wrap">
+    <div class="hobby-grid">
+      <div class="hobby">
+        <span class="mark">Most practiced</span>
+        <h3>Art &amp; comics</h3>
+        <p>The longest-running habit — sketching and comic pages, and the reason I ended up running the art club in college.</p>
+      </div>
+      <div class="hobby">
+        <span class="mark">Explored</span>
+        <h3>Music production</h3>
+        <p>Time spent inside a DAW learning how sound is arranged, layered, and mixed into something finished.</p>
+      </div>
+      <div class="hobby">
+        <span class="mark">Explored</span>
+        <h3>Writing</h3>
+        <p>Stories and scripts written mostly for myself, useful now mainly for framing ideas clearly.</p>
+      </div>
+      <div class="hobby">
+        <span class="mark">Explored</span>
+        <h3>Filmmaking</h3>
+        <p>Short, informal attempts at shooting and editing — enough to respect how much work a finished frame takes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-row">
+      <div>
+        <h2>Open to talking tech, always.</h2>
+        <p>CSE student at Southeast University, based in Dhaka, Bangladesh.</p>
+      </div>
+      <a class="btn" href="mailto:hello@example.com">Say hello</a>
+    </div>
+    <p class="fine">Sadab Arefin Ahon — b. 1 June 2006, Dhaka, Bangladesh.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var canvas = document.getElementById('network');
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var w, h, nodes = [];
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NODE_COUNT = 26;
+
+  function resize(){
+    var rect = canvas.getBoundingClientRect();
+    w = rect.width; h = rect.height;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function initNodes(){
+    nodes = [];
+    for (var i = 0; i < NODE_COUNT; i++){
+      nodes.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+        r: Math.random() * 1.6 + 1.2
+      });
+    }
+  }
+
+  function step(){
+    ctx.clearRect(0, 0, w, h);
+    var maxDist = Math.min(w, h) * 0.32;
+
+    for (var i = 0; i < nodes.length; i++){
+      var n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    }
+
+    for (var i = 0; i < nodes.length; i++){
+      for (var j = i + 1; j < nodes.length; j++){
+        var a = nodes[i], b = nodes[j];
+        var dx = a.x - b.x, dy = a.y - b.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < maxDist){
+          var alpha = (1 - dist / maxDist) * 0.35;
+          ctx.strokeStyle = 'rgba(178,58,92,' + alpha.toFixed(3) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (var i = 0; i < nodes.length; i++){
+      var n = nodes[i];
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(238,236,232,0.55)';
+      ctx.fill();
+    }
+
+    if (!reduceMotion) requestAnimationFrame(step);
+  }
+
+  function start(){
+    resize();
+    initNodes();
+    step();
+  }
+
+  window.addEventListener('resize', function(){
+    resize();
+    initNodes();
+    if (reduceMotion) step();
+  });
+
+  start();
+})();
+</script>
+
+</body>
+</html>
