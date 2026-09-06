@@ -73,11 +73,47 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .wrap{ max-width:1180px; margin:0 auto; padding:0 clamp(20px,5vw,64px); }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 clamp(32px,7vw,96px); }
 
   h1,h2,h3{ font-family:var(--ff-display); line-height:0.95; margin:0; letter-spacing:-0.01em; }
   a{ color:inherit; }
   p{ color:var(--ink-soft); line-height:1.6; margin:0; }
+
+  /* ============ DOCUMENT MARGIN FRAME ============ */
+  .page-frame{ position:fixed; inset:0; z-index:400; pointer-events:none; }
+  .page-frame::before, .page-frame::after{
+    content:''; position:absolute; top:0; bottom:0; width:1px;
+    background:repeating-linear-gradient(to bottom, var(--accent) 0 6px, transparent 6px 14px);
+    opacity:0.35;
+  }
+  .page-frame::before{ left:clamp(14px,3.4vw,46px); }
+  .page-frame::after{ right:clamp(14px,3.4vw,46px); }
+  .crop{ position:absolute; width:18px; height:18px; opacity:0.6; }
+  .crop.tl{ top:16px; left:16px; border-top:2px solid var(--accent); border-left:2px solid var(--accent); }
+  .crop.tr{ top:16px; right:16px; border-top:2px solid var(--accent); border-right:2px solid var(--accent); }
+  .crop.bl{ bottom:16px; left:16px; border-bottom:2px solid var(--accent); border-left:2px solid var(--accent); }
+  .crop.br{ bottom:16px; right:16px; border-bottom:2px solid var(--accent); border-right:2px solid var(--accent); }
+  @media (max-width:720px){ .page-frame{ display:none; } }
+
+  /* ============ SCROLL PROGRESS ============ */
+  .progress{ position:fixed; top:0; left:0; height:3px; width:0%; background:var(--accent); z-index:600; transition:width .08s linear; }
+
+  /* ============ CUSTOM CURSOR ============ */
+  .cursor-dot, .cursor-ring{ position:fixed; top:0; left:0; pointer-events:none; z-index:9998; border-radius:50%; transform:translate(-50%,-50%); }
+  .cursor-dot{ width:8px; height:8px; background:var(--accent); mix-blend-mode:difference; }
+  .cursor-ring{ width:32px; height:32px; border:2px solid var(--accent); transition:width .2s ease, height .2s ease, opacity .2s ease; opacity:0.7; mix-blend-mode:difference; }
+  .cursor-ring.big{ width:56px; height:56px; background:var(--accent); opacity:0.5; }
+  @media (hover:none), (max-width:900px){ .cursor-dot, .cursor-ring{ display:none; } }
+
+  /* ============ SCROLL REVEAL ============ */
+  .reveal-el{ opacity:0; transform:translateY(28px); transition:opacity .7s cubic-bezier(.16,.9,.25,1), transform .7s cubic-bezier(.16,.9,.25,1); }
+  .reveal-el.in{ opacity:1; transform:translateY(0); }
+  .sec-head h2{ position:relative; display:inline-block; }
+  .sec-head.in h2::after{ transform:scaleX(1); }
+  .sec-head h2::after{
+    content:''; position:absolute; left:0; bottom:-6px; height:6px; width:100%; background:var(--accent);
+    opacity:0.25; transform:scaleX(0); transform-origin:left; transition:transform .8s cubic-bezier(.16,.9,.25,1) .15s;
+  }
 
   .label{
     font-family:var(--ff-mono); font-size:0.78rem; font-weight:600;
@@ -101,7 +137,9 @@
   }
   .mark .dot{ width:12px; height:12px; background:var(--accent); display:inline-block; }
   .navlinks{ display:flex; gap:28px; font-family:var(--ff-mono); font-size:0.85rem; font-weight:600; }
-  .navlinks a{ text-decoration:none; position:relative; padding-bottom:3px; }
+  .navlinks a{ text-decoration:none; position:relative; padding-bottom:3px; display:inline-block; transition:transform .15s ease-out; }
+  .role-chip{ transition:transform .15s ease-out, box-shadow .2s ease; }
+  @media (hover:hover){ body{ cursor:none; } a, button, .toggle{ cursor:none; } }
   .navlinks a::after{
     content:''; position:absolute; left:0; bottom:0; height:3px; width:0; background:var(--accent);
     transition:width .25s ease;
@@ -156,6 +194,15 @@
   .hero h1 .row:nth-child(2) span{ animation-delay:.18s; color:var(--accent); }
   @keyframes riseUp{ to{ transform:translateY(0); } }
 
+  .hero h1 .row:hover span{ animation:glitch .5s steps(2,end) infinite; }
+  @keyframes glitch{
+    0%{ text-shadow:2px 0 var(--accent-2), -2px 0 var(--accent-3); transform:translate(0,0); }
+    25%{ text-shadow:-3px 0 var(--accent-2), 3px 0 var(--accent-3); transform:translate(-1px,1px); }
+    50%{ text-shadow:2px 1px var(--accent-2), -2px -1px var(--accent-3); transform:translate(1px,-1px); }
+    75%{ text-shadow:-2px -1px var(--accent-2), 2px 1px var(--accent-3); transform:translate(0,1px); }
+    100%{ text-shadow:2px 0 var(--accent-2), -2px 0 var(--accent-3); transform:translate(0,0); }
+  }
+
   .hero-sub{ margin-top:26px; display:flex; flex-wrap:wrap; gap:14px 28px; align-items:baseline; max-width:640px; }
   .hero-sub p{ font-size:1.05rem; max-width:520px; }
   .role-chip{
@@ -184,7 +231,8 @@
   .goal-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:3px solid var(--line); }
   .goal-cell{ padding:32px 26px; border-right:3px solid var(--line); position:relative; background:var(--card-bg); transition:background .3s ease; }
   .goal-cell:last-child{ border-right:none; }
-  .goal-cell:hover{ background:var(--accent); }
+  .goal-cell{ transform:scale(1); }
+  .goal-cell:hover{ background:var(--accent); transform:scale(1.02); z-index:2; }
   .goal-cell:hover *{ color:var(--bg); }
   .goal-cell .num{ font-family:var(--ff-mono); font-size:0.8rem; color:var(--accent); display:block; margin-bottom:14px; }
   .goal-cell:hover .num{ color:var(--bg); }
@@ -194,10 +242,17 @@
 
   .ticker-wrap{ margin-top:42px; border:3px solid var(--line); overflow:hidden; background:var(--ink); position:relative; }
   html.dark .ticker-wrap{ background:var(--wine); }
-  .ticker{ display:flex; gap:60px; white-space:nowrap; padding:16px 0; animation:tickerMove 26s linear infinite; width:max-content; }
-  .ticker span{ font-family:var(--ff-mono); font-weight:600; color:var(--bg); font-size:0.95rem; display:flex; align-items:center; gap:14px; }
-  .ticker span::before{ content:'◆'; color:var(--accent-3); }
+  .ticker-wrap::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0 2px, transparent 2px 4px);
+  }
+  .ticker{ display:flex; gap:60px; white-space:nowrap; padding:16px 0; animation:tickerMove 22s linear infinite; width:max-content; }
+  .ticker-wrap:hover .ticker{ animation-play-state:paused; }
+  .ticker span{ font-family:var(--ff-mono); font-weight:600; color:var(--bg); font-size:0.95rem; display:flex; align-items:center; gap:14px; transition:letter-spacing .3s ease; }
+  .ticker span:hover{ letter-spacing:0.04em; color:var(--accent-3); }
+  .ticker span::before{ content:'◆'; color:var(--accent-3); animation:pulse 1.6s ease-in-out infinite; }
   @keyframes tickerMove{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.3; } }
 
   /* ============ TIMELINE ============ */
   .timeline{ position:relative; margin-top:12px; }
@@ -218,8 +273,11 @@
 
   /* ============ TECH / INTERESTS ============ */
   .chip-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
-  .chip{ border:3px solid var(--line); background:var(--card-bg); padding:22px 20px; box-shadow:var(--shadow-hard-sm); transition:transform .2s ease, box-shadow .2s ease; position:relative; overflow:hidden; }
-  .chip:hover{ transform:translate(-3px,-3px); box-shadow:8px 8px 0 var(--accent); }
+  .chip{ border:3px solid var(--line); background:var(--card-bg); padding:22px 20px; box-shadow:var(--shadow-hard-sm); transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease; position:relative; overflow:hidden; }
+  .chip:hover{ transform:translate(-4px,-4px) rotate(-1deg); box-shadow:9px 9px 0 var(--accent); }
+  .chip:nth-child(even):hover{ transform:translate(-4px,-4px) rotate(1deg); }
+  .chip .glyph{ transition:transform .4s ease, color .4s ease; }
+  .chip:hover .glyph{ transform:scale(1.15) rotate(8deg); color:var(--accent-3); }
   .chip h3{ font-size:1.05rem; text-transform:uppercase; margin-bottom:8px; }
   .chip p{ font-size:0.88rem; }
   .chip .glyph{ position:absolute; right:10px; top:8px; font-family:var(--ff-mono); font-size:2.2rem; color:var(--bg-2); font-weight:700; z-index:0; }
@@ -232,7 +290,9 @@
   .beyond-intro{ max-width:640px; margin-bottom:40px; }
   .beyond-intro .label{ display:block; margin-bottom:10px; }
   .hobby-row{ display:flex; flex-wrap:wrap; gap:0; border-top:2px solid var(--line); }
-  .hobby-item{ flex:1 1 220px; padding:20px 18px; border-bottom:2px solid var(--line); border-right:2px solid var(--line); }
+  .hobby-item{ flex:1 1 220px; padding:20px 18px; border-bottom:2px solid var(--line); border-right:2px solid var(--line); transition:background .25s ease; }
+  .hobby-item:hover{ background:var(--card-bg); }
+  .hobby-item:hover h4{ color:var(--accent); }
   .hobby-item:last-child{ border-right:none; }
   .hobby-item h4{ font-family:var(--ff-display); font-size:0.98rem; text-transform:uppercase; margin:0 0 6px; }
   .hobby-item p{ font-size:0.85rem; }
@@ -240,9 +300,11 @@
 
   /* ============ ACADEMICS STRIP ============ */
   .stat-strip{ display:grid; grid-template-columns:repeat(3,1fr); border:3px solid var(--line); text-align:center; }
-  .stat{ padding:26px 12px; border-right:3px solid var(--line); }
+  .stat{ padding:26px 12px; border-right:3px solid var(--line); transition:background .25s ease, transform .25s ease; }
+  .stat:hover{ background:var(--accent); transform:translateY(-4px); }
+  .stat:hover b, .stat:hover span{ color:var(--bg); }
   .stat:last-child{ border-right:none; }
-  .stat b{ display:block; font-family:var(--ff-display); font-size:2rem; color:var(--accent); }
+  .stat b{ display:block; font-family:var(--ff-display); font-size:2rem; color:var(--accent); transition:color .25s ease; }
   .stat span{ font-family:var(--ff-mono); font-size:0.75rem; color:var(--ink-soft); }
   @media (max-width:600px){ .stat-strip{ grid-template-columns:1fr; } .stat{ border-right:none; border-bottom:3px solid var(--line); } .stat:last-child{ border-bottom:none; } }
 
@@ -261,6 +323,13 @@
 <body>
 
 <div class="grain"></div>
+<div class="progress" id="progressBar"></div>
+<div class="page-frame">
+  <span class="crop tl"></span><span class="crop tr"></span>
+  <span class="crop bl"></span><span class="crop br"></span>
+</div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
 <header>
   <div class="nav">
@@ -305,22 +374,22 @@
 
 <section id="goal">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal-el">
       <h2>What I'm building toward</h2>
       <span class="sec-num">01 / FOCUS</span>
     </div>
     <div class="goal-grid">
-      <div class="goal-cell">
+      <div class="goal-cell reveal-el">
         <span class="num">01</span>
         <h3>Solve something real</h3>
         <p>Not a feature, not a toy project — a build aimed at a problem that actually slows people down.</p>
       </div>
-      <div class="goal-cell">
+      <div class="goal-cell reveal-el">
         <span class="num">02</span>
         <h3>Affordable or high-five</h3>
         <p>Every corner or every peak. Either it reaches everyone, or it pushes the ceiling of what's possible — no comfortable middle.</p>
       </div>
-      <div class="goal-cell">
+      <div class="goal-cell reveal-el">
         <span class="num">03</span>
         <h3>Generational legacy</h3>
         <p>Built to outlast the trend cycle it was born in — infrastructure, not a feature update.</p>
@@ -338,7 +407,7 @@
         <span>Bio-digital firewalls</span>
       </div>
     </div>
-    <div class="goal-note">
+    <div class="goal-note reveal-el">
       <p>These are the shape of ideas I keep circling, not a roadmap — early markers for where the useful, high-five, generational work might live.</p>
     </div>
   </div>
@@ -346,13 +415,13 @@
 
 <section id="path">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal-el">
       <h2>Academic path</h2>
       <span class="sec-num">02 / PATH</span>
     </div>
-    <div class="stat-strip" style="margin-bottom:56px;">
-      <div class="stat"><b>5.00</b><span>SSC GPA · IDEAL SCHOOL &amp; COLLEGE · 2023</span></div>
-      <div class="stat"><b>4.42</b><span>HSC GPA · DHAKA IMPERIAL COLLEGE · 2025</span></div>
+    <div class="stat-strip reveal-el" style="margin-bottom:56px;">
+      <div class="stat"><b data-count="5.00">0.00</b><span>SSC GPA · IDEAL SCHOOL &amp; COLLEGE · 2023</span></div>
+      <div class="stat"><b data-count="4.42">0.00</b><span>HSC GPA · DHAKA IMPERIAL COLLEGE · 2025</span></div>
       <div class="stat"><b>Y1·S1</b><span>CSE · SOUTHEAST UNIVERSITY · CURRENT</span></div>
     </div>
     <div class="timeline" id="timeline">
@@ -388,32 +457,32 @@
 
 <section id="stack">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal-el">
       <h2>What pulls me into tech</h2>
       <span class="sec-num">03 / INTERESTS</span>
     </div>
     <div class="chip-grid">
-      <div class="chip"><span class="glyph">01</span><h3>Connections between systems</h3><p>How separate technologies snap together — the seams are usually where the interesting problems live.</p></div>
-      <div class="chip"><span class="glyph">02</span><h3>How things are actually built</h3><p>Less interested in what a tool does than in why it was built that way, layer by layer.</p></div>
-      <div class="chip"><span class="glyph">03</span><h3>Algorithms</h3><p>The logic underneath the interface — the part that decides what's actually possible.</p></div>
-      <div class="chip"><span class="glyph">04</span><h3>Data</h3><p>What gets collected, how it moves, and what it enables once it's structured right.</p></div>
-      <div class="chip"><span class="glyph">05</span><h3>The cyberworld at large</h3><p>Not one specialty — the whole networked stack, end to end.</p></div>
-      <div class="chip"><span class="glyph">06</span><h3>Programming as craft</h3><p>Writing something that functions is one thing; writing something that's built well is another.</p></div>
+      <div class="chip reveal-el"><span class="glyph">01</span><h3>Connections between systems</h3><p>How separate technologies snap together — the seams are usually where the interesting problems live.</p></div>
+      <div class="chip reveal-el"><span class="glyph">02</span><h3>How things are actually built</h3><p>Less interested in what a tool does than in why it was built that way, layer by layer.</p></div>
+      <div class="chip reveal-el"><span class="glyph">03</span><h3>Algorithms</h3><p>The logic underneath the interface — the part that decides what's actually possible.</p></div>
+      <div class="chip reveal-el"><span class="glyph">04</span><h3>Data</h3><p>What gets collected, how it moves, and what it enables once it's structured right.</p></div>
+      <div class="chip reveal-el"><span class="glyph">05</span><h3>The cyberworld at large</h3><p>Not one specialty — the whole networked stack, end to end.</p></div>
+      <div class="chip reveal-el"><span class="glyph">06</span><h3>Programming as craft</h3><p>Writing something that functions is one thing; writing something that's built well is another.</p></div>
     </div>
   </div>
 </section>
 
 <section id="beyond">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal-el">
       <h2>Beyond the CSE track</h2>
       <span class="sec-num">04 / BEYOND</span>
     </div>
-    <div class="beyond-intro">
+    <div class="beyond-intro reveal-el">
       <span class="label">JACK OF SEVERAL TRADES</span>
       <p>Before tech took the lead, there was a decade of picking things up: mostly art and comics, with music production, writing, and filmmaking tried along the way. None of it is gone — it's just no longer the main pursuit.</p>
     </div>
-    <div class="hobby-row">
+    <div class="hobby-row reveal-el">
       <div class="hobby-item"><h4>Art &amp; Comics</h4><span class="weight">MOST ACTIVE</span><p>The longest-running hobby, and the one that led to running the art club in college.</p></div>
       <div class="hobby-item"><h4>Music Production</h4><span class="weight">EXPLORED</span><p>Tried and picked up as a side pursuit.</p></div>
       <div class="hobby-item"><h4>Writing</h4><span class="weight">EXPLORED</span><p>Another thread pulled at, alongside the visual work.</p></div>
@@ -424,10 +493,10 @@
 
 <footer id="contact">
   <div class="wrap">
-    <div class="foot-head">
+    <div class="foot-head reveal-el">
       <h2>Let's build<br>something that lasts.</h2>
     </div>
-    <div class="foot-meta">
+    <div class="foot-meta reveal-el">
       <div><b>Location</b>Dhaka, Bangladesh</div>
       <div><b>Studying</b>CSE, Southeast University</div>
       <div><b>Status</b>Year 1, Semester 1</div>
@@ -436,6 +505,8 @@
 </footer>
 
 <script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // Theme toggle
   const root = document.documentElement;
   const toggle = document.getElementById('themeToggle');
@@ -459,6 +530,93 @@
     entries.forEach(e => { if(e.isIntersecting){ timeline.classList.add('inview'); } });
   }, { threshold: 0.15 });
   tio.observe(timeline);
+
+  // Staggered scroll reveal for grids and blocks
+  const revealParents = document.querySelectorAll('.goal-grid, .chip-grid, .stat-strip, .hobby-row');
+  revealParents.forEach(parent => {
+    Array.from(parent.children).forEach((child, i) => {
+      child.style.transitionDelay = (i * 90) + 'ms';
+    });
+  });
+  const revealEls = document.querySelectorAll('.reveal-el');
+  const rio = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); rio.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => rio.observe(el));
+
+  // Scroll progress bar
+  const progressBar = document.getElementById('progressBar');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  }
+  document.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // Parallax on hero elements
+  const heroBg = document.querySelector('.hero-bg');
+  const heroBlob = document.querySelector('.hero-blob');
+  function parallax(){
+    const y = window.scrollY;
+    if(heroBg) heroBg.style.transform = 'translateY(' + (y * 0.15) + 'px)';
+    if(heroBlob) heroBlob.style.transform = 'translateY(' + (y * 0.25) + 'px) rotate(' + (y * 0.06) + 'deg)';
+  }
+  if(!reduceMotion){ document.addEventListener('scroll', parallax, { passive:true }); }
+
+  // Custom cursor
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorRing = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  if(cursorDot && window.matchMedia('(hover:hover)').matches){
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      cursorDot.style.left = mx + 'px'; cursorDot.style.top = my + 'px';
+    });
+    function ringLoop(){
+      rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+      cursorRing.style.left = rx + 'px'; cursorRing.style.top = ry + 'px';
+      requestAnimationFrame(ringLoop);
+    }
+    ringLoop();
+    document.querySelectorAll('a, .chip, .goal-cell, .toggle, .stat, .hobby-item').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorRing.classList.add('big'));
+      el.addEventListener('mouseleave', () => cursorRing.classList.remove('big'));
+    });
+  }
+
+  // Count-up stats
+  const counters = document.querySelectorAll('[data-count]');
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const el = e.target;
+        const target = parseFloat(el.dataset.count);
+        const start = performance.now();
+        const dur = 1200;
+        function tick(now){
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = (target * eased).toFixed(2);
+          if(p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        cio.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => cio.observe(c));
+
+  // Magnetic nav links
+  document.querySelectorAll('.navlinks a, .role-chip').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      const mx2 = e.clientX - r.left - r.width / 2;
+      const my2 = e.clientY - r.top - r.height / 2;
+      el.style.transform = 'translate(' + (mx2 * 0.25) + 'px,' + (my2 * 0.3) + 'px)';
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0,0)'; });
+  });
 </script>
 
 </body>
