@@ -1,568 +1,555 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sadab Arefin Ahon</title>
+<title>Sadab Arefin Ahon — CSE / Southeast University</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #17181b;
-    --bg-alt: #1e2024;
-    --surface: #232529;
-    --burgundy: #7a1f3d;
-    --burgundy-bright: #b23a5c;
-    --burgundy-dim: #4a1526;
-    --text: #eeece8;
-    --text-muted: #93959c;
-    --text-faint: #5c5e64;
-    --border: rgba(238,236,232,0.08);
-    --max-w: 920px;
+    --burgundy: #7a2140;
+    --burgundy-deep: #4a1224;
+    --wine: #9c2c4c;
+    --rust: #8a3a22;
+    --plum: #3c1830;
+    --gold: #c9a24b;
+    --bone: #ede6d9;
+
+    --bg: #110a0d;
+    --bg-raised: #1a1013;
+    --ink: #f1e9dd;
+    --ink-dim: #b8a8a8;
+    --line: #3a2530;
+    --accent: var(--wine);
+    --accent-2: var(--gold);
+    --shadow-hard: 8px 8px 0 var(--burgundy-deep);
+    --shadow-hard-sm: 5px 5px 0 var(--burgundy-deep);
   }
 
-  *{ box-sizing: border-box; }
-  html{ scroll-behavior: smooth; }
+  html[data-theme="light"]{
+    --bg: #ede6d9;
+    --bg-raised: #e2d8c4;
+    --ink: #1c1013;
+    --ink-dim: #5a4640;
+    --line: #c9b99e;
+    --accent: var(--burgundy);
+    --accent-2: #8a3a22;
+    --shadow-hard: 8px 8px 0 var(--burgundy);
+    --shadow-hard-sm: 5px 5px 0 var(--burgundy);
+  }
 
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
   body{
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    overflow-x:hidden;
+    transition:background .4s ease, color .4s ease;
+    position:relative;
   }
 
-  h1, h2, h3, .wordmark, .nav-links a, .pillar-num, .btn{
-    font-family: 'Space Grotesk', sans-serif;
+  /* grain texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:999;
+    opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
   }
 
-  a{ color: inherit; }
+  ::selection{background:var(--accent-2); color:var(--burgundy-deep);}
 
-  @media (prefers-reduced-motion: reduce){
-    *{ animation: none !important; transition: none !important; }
+  h1,h2,h3,.display{
+    font-family:'Unbounded', sans-serif;
+    line-height:1.02;
+    letter-spacing:-.01em;
   }
 
-  /* ---------- layout shell ---------- */
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
   .wrap{
-    max-width: var(--max-w);
-    margin: 0 auto;
-    padding: 0 28px;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
   }
 
-  /* ---------- nav ---------- */
-  nav{
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    backdrop-filter: blur(10px);
-    background: rgba(23,24,27,0.75);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner{
-    max-width: var(--max-w);
-    margin: 0 auto;
-    padding: 18px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .wordmark{
-    font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: -0.01em;
-  }
-  .wordmark span{ color: var(--burgundy-bright); }
-  .nav-links{
-    display: flex;
-    gap: 28px;
-    list-style: none;
-    margin: 0; padding: 0;
-  }
-  .nav-links a{
-    font-size: 0.92rem;
-    font-weight: 500;
-    text-decoration: none;
-    color: var(--text-muted);
-    transition: color 0.2s ease;
-  }
-  .nav-links a:hover, .nav-links a:focus-visible{ color: var(--text); }
+  a{color:inherit;}
 
-  /* ---------- hero ---------- */
+  /* ---------- TOPBAR ---------- */
+  .topbar{
+    position:fixed; top:0; left:0; right:0;
+    z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    background:var(--bg);
+    border-bottom:3px solid var(--ink);
+    transition:background .4s ease, border-color .4s ease;
+  }
+  .topbar .mark{
+    font-family:'Unbounded'; font-weight:800; font-size:1rem;
+    letter-spacing:0; text-decoration:none;
+    border:2px solid var(--ink); padding:6px 10px;
+  }
+  .theme-toggle{
+    display:flex; align-items:center; gap:10px;
+    border:2px solid var(--ink);
+    padding:6px 6px;
+    background:transparent;
+    cursor:pointer;
+    font-family:'JetBrains Mono'; font-size:.72rem;
+    color:var(--ink);
+  }
+  .theme-toggle .dot{
+    width:14px; height:14px;
+    background:var(--accent);
+    border:2px solid var(--ink);
+    transition:transform .35s cubic-bezier(.7,-0.4,.3,1.5);
+  }
+  html[data-theme="light"] .theme-toggle .dot{ transform:translateX(20px); }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    border-top:3px solid var(--ink);
+    border-bottom:3px solid var(--ink);
+    background:var(--accent);
+    color:var(--bone);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:10px 0;
+    margin-top:66px;
+  }
+  html[data-theme="light"] .marquee{ color:var(--bone); }
+  .marquee .track{
+    display:inline-block;
+    padding-left:100%;
+    animation:scroll-left 26s linear infinite;
+    font-family:'JetBrains Mono'; font-weight:700; font-size:.85rem;
+    letter-spacing:.05em;
+  }
+  .marquee span{ padding:0 18px; }
+  @keyframes scroll-left{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-100%); }
+  }
+
+  /* ---------- HERO ---------- */
   .hero{
-    position: relative;
-    padding: 96px 0 88px;
-    overflow: hidden;
+    padding:90px 0 60px;
+    position:relative;
   }
-  #network{
-    position: absolute;
-    top: -10%;
-    right: -12%;
-    width: 62%;
-    height: 130%;
-    opacity: 0.85;
-    pointer-events: none;
-  }
-  .eyebrow{
-    color: var(--burgundy-bright);
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin: 0 0 14px;
+  .hero .kicker{
+    display:inline-block;
+    font-family:'JetBrains Mono'; font-size:.8rem; font-weight:500;
+    border:2px solid var(--ink);
+    padding:4px 10px;
+    margin-bottom:26px;
   }
   .hero h1{
-    font-size: clamp(2.4rem, 5.4vw, 3.9rem);
-    font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -0.015em;
-    margin: 0 0 20px;
-    max-width: 11ch;
+    font-size:clamp(2.6rem, 8vw, 6.4rem);
+    font-weight:900;
+    text-transform:uppercase;
   }
-  .hero p.lede{
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    max-width: 46ch;
-    margin: 0 0 32px;
+  .hero h1 .glitch-word{
+    position:relative;
+    display:inline-block;
+    color:var(--accent);
   }
-  .hero-tags{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  .hero .sub{
+    margin-top:26px;
+    max-width:640px;
+    font-size:1.15rem;
+    color:var(--ink-dim);
+    line-height:1.5;
   }
-  .tag{
-    border: 1px solid var(--border);
-    padding: 7px 14px;
-    border-radius: 999px;
-    font-size: 0.84rem;
-    color: var(--text-muted);
-    background: var(--surface);
+  .hero .meta-row{
+    margin-top:38px;
+    display:flex; flex-wrap:wrap; gap:14px;
+  }
+  .meta-chip{
+    border:2px solid var(--ink);
+    padding:9px 14px;
+    font-family:'JetBrains Mono'; font-size:.78rem;
+    background:var(--bg-raised);
   }
 
-  /* ---------- section shell ---------- */
-  section{ padding: 72px 0; border-top: 1px solid var(--border); }
-  .section-head{ margin-bottom: 40px; max-width: 60ch; }
+  /* ---------- SECTION HEADERS ---------- */
+  .section{ padding:90px 0; border-top:3px solid var(--ink); }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:20px; margin-bottom:52px; flex-wrap:wrap;
+  }
   .section-head h2{
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin: 0 0 12px;
+    font-size:clamp(1.9rem, 4.4vw, 3.2rem);
+    font-weight:800;
+    text-transform:uppercase;
   }
-  .section-head p{
-    color: var(--text-muted);
-    margin: 0;
-    font-size: 1.02rem;
+  .section-num{
+    font-family:'JetBrains Mono'; color:var(--accent); font-size:1rem; font-weight:700;
   }
 
-  /* ---------- vision pillars ---------- */
-  .pillars{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .pillar{
-    padding: 30px 26px;
-    border-right: 1px solid var(--border);
-    position: relative;
-  }
-  .pillar:last-child{ border-right: none; }
-  .pillar-num{
-    color: var(--burgundy-bright);
-    font-weight: 700;
-    font-size: 0.95rem;
-    display: block;
-    margin-bottom: 14px;
-  }
-  .pillar h3{
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 0 0 10px;
-  }
-  .pillar p{
-    color: var(--text-muted);
-    font-size: 0.94rem;
-    margin: 0;
-  }
-  .vision-examples{
-    margin-top: 28px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .vision-examples .tag{ border-color: var(--burgundy-dim); color: var(--text); }
-
-  /* ---------- focus / interests ---------- */
+  /* ---------- FOCUS GRID ---------- */
   .focus-grid{
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 48px;
-    align-items: start;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:0;
+    border:3px solid var(--ink);
   }
-  .focus-grid h3{
-    font-size: 1.15rem;
-    margin: 0 0 12px;
-    font-weight: 600;
+  .focus-card{
+    padding:34px 28px;
+    border-right:3px solid var(--ink);
+    transition:background .25s ease, transform .25s ease;
+    position:relative;
   }
-  .focus-grid p{ color: var(--text-muted); margin: 0 0 20px; }
-  .stat-list{ list-style: none; margin: 0; padding: 0; }
-  .stat-list li{
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
+  .focus-card:last-child{ border-right:none; }
+  .focus-card:hover{
+    background:var(--accent);
+    color:var(--bone);
+    transform:translateY(-4px);
   }
-  .stat-list li:last-child{ border-bottom: none; }
-  .stat-list .label{ color: var(--text-muted); font-size: 0.94rem; }
-  .stat-list .value{ font-weight: 600; text-align: right; }
+  .focus-card h3{ font-size:1.15rem; margin-bottom:12px; font-weight:700; }
+  .focus-card p{ font-size:.92rem; line-height:1.55; color:inherit; opacity:.85; }
+  .focus-card .num{ font-family:'JetBrains Mono'; font-size:.75rem; opacity:.6; margin-bottom:16px; display:block; }
 
-  /* ---------- timeline ---------- */
-  .timeline{ position: relative; padding-left: 32px; }
-  .timeline::before{
-    content: "";
-    position: absolute;
-    left: 5px; top: 6px; bottom: 6px;
-    width: 2px;
-    background: linear-gradient(var(--burgundy), var(--border));
+  /* ---------- MISSION ---------- */
+  .mission-crit{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-bottom:56px;
   }
-  .t-item{ position: relative; padding-bottom: 36px; }
-  .t-item:last-child{ padding-bottom: 0; }
-  .t-item::before{
-    content: "";
-    position: absolute;
-    left: -32px; top: 4px;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--burgundy-bright);
+  .crit{
+    border:3px solid var(--ink);
+    padding:26px;
+    box-shadow:var(--shadow-hard-sm);
+    background:var(--bg-raised);
   }
-  .t-item .year{
-    color: var(--burgundy-bright);
-    font-weight: 700;
-    font-size: 0.9rem;
-    font-family: 'Space Grotesk', sans-serif;
+  .crit .tag{
+    font-family:'JetBrains Mono'; font-size:.72rem; color:var(--accent-2); font-weight:700;
+    display:block; margin-bottom:10px;
   }
-  .t-item h3{ margin: 4px 0 6px; font-size: 1.08rem; font-weight: 600; }
-  .t-item p{ margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+  .crit h3{ font-size:1.25rem; font-weight:700; }
 
-  /* ---------- divider ---------- */
-  .divider{
-    padding: 56px 0 8px;
-    border-top: 1px solid var(--border);
+  .concept-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
   }
-  .divider p{
-    color: var(--text-faint);
-    font-size: 0.92rem;
-    max-width: 52ch;
+  .concept{
+    border:2px solid var(--ink);
+    padding:22px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:14px;
+    cursor:default;
+    transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+    background:var(--bg);
   }
+  .concept:hover{
+    transform:translate(-3px,-3px);
+    box-shadow:6px 6px 0 var(--accent);
+    background:var(--bg-raised);
+  }
+  .concept span.name{ font-weight:600; font-size:1rem; }
+  .concept span.idx{ font-family:'JetBrains Mono'; font-size:.75rem; color:var(--accent); }
 
-  /* ---------- hobbies ---------- */
-  .hobby-grid{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
+  /* ---------- ACADEMIC STATS ---------- */
+  .stat-strip{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    border:3px solid var(--ink);
+  }
+  .stat{
+    padding:36px 22px;
+    border-right:3px solid var(--ink);
+    text-align:left;
+  }
+  .stat:last-child{ border-right:none; }
+  .stat .val{
+    font-family:'Unbounded'; font-weight:900; font-size:2.6rem; color:var(--accent);
+    display:block; margin-bottom:8px;
+  }
+  .stat .label{ font-family:'JetBrains Mono'; font-size:.74rem; color:var(--ink-dim); line-height:1.5; }
+
+  .timeline{ margin-top:56px; }
+  .tline-row{
+    display:grid; grid-template-columns:120px 1fr;
+    border-top:2px solid var(--line);
+    padding:20px 0;
+    gap:20px;
+  }
+  .tline-row:last-child{ border-bottom:2px solid var(--line); }
+  .tline-row .yr{ font-family:'JetBrains Mono'; font-weight:700; color:var(--accent-2); }
+  .tline-row .body h4{ font-size:1.05rem; font-weight:700; margin-bottom:4px; }
+  .tline-row .body p{ font-size:.88rem; color:var(--ink-dim); }
+
+  /* ---------- BEYOND CODE (quieter) ---------- */
+  .beyond{
+    background:var(--bg-raised);
+  }
+  .hobby-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:2px;
+    background:var(--line);
+    border:2px solid var(--line);
   }
   .hobby{
-    background: var(--bg);
-    padding: 26px 20px;
-    transition: background 0.25s ease;
+    background:var(--bg);
+    padding:26px 22px;
+    transition:background .2s ease;
   }
-  .hobby:hover{ background: var(--bg-alt); }
-  .hobby h3{ font-size: 0.98rem; font-weight: 600; margin: 0 0 8px; }
-  .hobby p{ font-size: 0.86rem; color: var(--text-muted); margin: 0; }
-  .hobby .mark{ color: var(--text-faint); font-size: 0.78rem; display: block; margin-bottom: 10px; }
+  .hobby:hover{ background:var(--bg-raised); }
+  .hobby .role{ font-family:'JetBrains Mono'; font-size:.7rem; color:var(--accent); margin-bottom:8px; text-transform:uppercase; letter-spacing:.04em;}
+  .hobby h4{ font-size:1.02rem; font-weight:700; margin-bottom:6px; }
+  .hobby p{ font-size:.85rem; color:var(--ink-dim); line-height:1.5; }
 
-  /* ---------- footer ---------- */
+  /* ---------- FOOTER ---------- */
   footer{
-    padding: 56px 0 60px;
-    border-top: 1px solid var(--border);
+    border-top:3px solid var(--ink);
+    padding:50px 0 40px;
   }
   .foot-row{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 24px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
   }
-  footer h2{
-    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
-    font-weight: 700;
-    margin: 0 0 8px;
-    max-width: 14ch;
+  .foot-row .big{
+    font-family:'Unbounded'; font-weight:800; font-size:1.4rem; text-transform:uppercase;
   }
-  footer p{ color: var(--text-muted); margin: 0; }
-  .btn{
-    display: inline-block;
-    background: var(--burgundy);
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 13px 22px;
-    border-radius: 3px;
-    border: 1px solid var(--burgundy-bright);
-    transition: background 0.2s ease, transform 0.2s ease;
+  .foot-meta{
+    font-family:'JetBrains Mono'; font-size:.72rem; color:var(--ink-dim);
+    display:flex; gap:18px; flex-wrap:wrap;
   }
-  .btn:hover{ background: var(--burgundy-bright); transform: translateY(-1px); }
-  .fine{ margin-top: 40px; color: var(--text-faint); font-size: 0.82rem; }
 
   /* ---------- responsive ---------- */
-  @media (max-width: 760px){
-    .focus-grid{ grid-template-columns: 1fr; gap: 32px; }
-    .pillars{ grid-template-columns: 1fr; }
-    .pillar{ border-right: none; border-bottom: 1px solid var(--border); }
-    .pillar:last-child{ border-bottom: none; }
-    .hobby-grid{ grid-template-columns: 1fr 1fr; }
-    #network{ width: 90%; opacity: 0.4; }
-    .nav-links{ display: none; }
+  @media (max-width: 860px){
+    .focus-grid{ grid-template-columns:1fr; }
+    .focus-card{ border-right:none; border-bottom:3px solid var(--ink); }
+    .focus-card:last-child{ border-bottom:none; }
+    .mission-crit{ grid-template-columns:1fr; }
+    .concept-grid{ grid-template-columns:1fr; }
+    .stat-strip{ grid-template-columns:1fr 1fr; }
+    .stat{ border-bottom:3px solid var(--ink); }
+    .tline-row{ grid-template-columns:1fr; }
   }
 
-  :focus-visible{ outline: 2px solid var(--burgundy-bright); outline-offset: 2px; }
+  /* ---------- reveal on load (one orchestrated moment) ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    animation:reveal-in .7s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .r1{ animation-delay:.05s; }
+  .r2{ animation-delay:.18s; }
+  .r3{ animation-delay:.32s; }
+  .r4{ animation-delay:.46s; }
+  @keyframes reveal-in{
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001s !important; animation-iteration-count:1 !important; transition-duration:.001s !important; }
+  }
+
+  :focus-visible{ outline:3px solid var(--accent-2); outline-offset:2px; }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <div class="wordmark">S<span>.</span>A<span>.</span>Ahon</div>
-    <ul class="nav-links">
-      <li><a href="#focus">Focus</a></li>
-      <li><a href="#academics">Academics</a></li>
-      <li><a href="#hobbies">Beyond code</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<header class="hero">
-  <canvas id="network"></canvas>
-  <div class="wrap">
-    <p class="eyebrow">CSE, Southeast University · Dhaka</p>
-    <h1>Sadab Arefin Ahon</h1>
-    <p class="lede">First-year computer science student in Dhaka, currently mapping the wiring behind every system I use — from how a program is built to how it thinks.</p>
-    <div class="hero-tags">
-      <span class="tag">Southeast University — CSE</span>
-      <span class="tag">Systems &amp; algorithms</span>
-      <span class="tag">ENTP</span>
-      <span class="tag">Est. 2006, Dhaka</span>
-    </div>
-  </div>
+<header class="topbar">
+  <a href="#top" class="mark">S.A.A</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+    <span class="mono">DARK</span><span class="dot"></span><span class="mono">LIGHT</span>
+  </button>
 </header>
 
-<section id="vision">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>What I'm actually building toward</h2>
-      <p>Any project I take seriously has to clear three bars at once. Miss one, and it's just a hobby with extra steps.</p>
-    </div>
-    <div class="pillars">
-      <div class="pillar">
-        <span class="pillar-num">01</span>
-        <h3>Solves something real</h3>
-        <p>Not a demo. A problem that's actually stalling people right now, tackled at the root instead of the symptom.</p>
-      </div>
-      <div class="pillar">
-        <span class="pillar-num">02</span>
-        <h3>Affordable, or the absolute best</h3>
-        <p>No comfortable middle. It should either reach almost anyone, or be the uncompromised, top-tier version nothing else touches.</p>
-      </div>
-      <div class="pillar">
-        <span class="pillar-num">03</span>
-        <h3>Outlives me</h3>
-        <p>Built to still matter a generation from now — infrastructure, not a feature that gets deprecated in two years.</p>
-      </div>
-    </div>
-    <div class="vision-examples">
-      <span class="tag">Direct neural–code interfaces</span>
-      <span class="tag">Biological data centers</span>
-      <span class="tag">Subconscious background processing</span>
-      <span class="tag">Bio-digital firewalls</span>
-    </div>
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>ALGORITHMS</span><span>·</span><span>SYSTEMS</span><span>·</span><span>NEURAL INTERFACES</span><span>·</span><span>DATA</span><span>·</span><span>CSE — SOUTHEAST UNIVERSITY</span><span>·</span><span>CYBERWORLD</span><span>·</span><span>ALGORITHMS</span><span>·</span><span>SYSTEMS</span><span>·</span><span>NEURAL INTERFACES</span><span>·</span><span>DATA</span><span>·</span><span>CSE — SOUTHEAST UNIVERSITY</span><span>·</span><span>CYBERWORLD</span>
   </div>
-</section>
-
-<section id="focus">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Where the attention actually goes</h2>
-      <p>Everything else in my life has been a rotation of interests. Tech is the one thing that stuck and kept pulling harder.</p>
-    </div>
-    <div class="focus-grid">
-      <div>
-        <h3>What pulls me in</h3>
-        <p>Not one layer of tech, but the connections between them — how a piece of code becomes a running system, how that system is architected to survive load, and how algorithms quietly decide outcomes underneath it all. Data is the material; figuring out how it's shaped, moved, and protected is the actual craft.</p>
-        <h3>How I think</h3>
-        <p>ENTP, which mostly means I get more energy from arguing an idea from five angles than from executing the first one that works. Useful for design, occasionally a liability for finishing things — which is exactly why the CSE degree exists.</p>
-      </div>
-      <ul class="stat-list">
-        <li><span class="label">Program</span><span class="value">B.Sc. in CSE</span></li>
-        <li><span class="label">Institution</span><span class="value">Southeast University</span></li>
-        <li><span class="label">Standing</span><span class="value">1st year, 1st semester</span></li>
-        <li><span class="label">Core interest</span><span class="value">Systems &amp; algorithms</span></li>
-        <li><span class="label">Based in</span><span class="value">Dhaka, Bangladesh</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="academics">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>The path here</h2>
-      <p>Three checkpoints, each one narrowing further toward the same direction.</p>
-    </div>
-    <div class="timeline">
-      <div class="t-item">
-        <span class="year">2023</span>
-        <h3>SSC — Ideal School and College</h3>
-        <p>Graduated with a GPA of 5.00, while running the art club as its organizing secretary on the side.</p>
-      </div>
-      <div class="t-item">
-        <span class="year">2025</span>
-        <h3>HSC — Dhaka Imperial College</h3>
-        <p>Graduated with a GPA of 4.42, closing out the widest phase of hobby experimentation before narrowing focus.</p>
-      </div>
-      <div class="t-item">
-        <span class="year">2025 — present</span>
-        <h3>B.Sc. in CSE — Southeast University</h3>
-        <p>First semester of first year. The formal start of turning tech curiosity into an actual discipline.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="wrap divider">
-  <p>Before the degree, there was a decade of making things for their own sake. It hasn't been retired — just moved to second priority.</p>
 </div>
 
-<section id="hobbies" style="border-top:none; padding-top:24px;">
-  <div class="wrap">
-    <div class="hobby-grid">
-      <div class="hobby">
-        <span class="mark">Most practiced</span>
-        <h3>Art &amp; comics</h3>
-        <p>The longest-running habit — sketching and comic pages, and the reason I ended up running the art club in college.</p>
-      </div>
-      <div class="hobby">
-        <span class="mark">Explored</span>
-        <h3>Music production</h3>
-        <p>Time spent inside a DAW learning how sound is arranged, layered, and mixed into something finished.</p>
-      </div>
-      <div class="hobby">
-        <span class="mark">Explored</span>
-        <h3>Writing</h3>
-        <p>Stories and scripts written mostly for myself, useful now mainly for framing ideas clearly.</p>
-      </div>
-      <div class="hobby">
-        <span class="mark">Explored</span>
-        <h3>Filmmaking</h3>
-        <p>Short, informal attempts at shooting and editing — enough to respect how much work a finished frame takes.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<main id="top">
 
-<footer id="contact">
-  <div class="wrap">
-    <div class="foot-row">
-      <div>
-        <h2>Open to talking tech, always.</h2>
-        <p>CSE student at Southeast University, based in Dhaka, Bangladesh.</p>
-      </div>
-      <a class="btn" href="mailto:hello@example.com">Say hello</a>
+  <section class="hero wrap">
+    <div class="kicker reveal r1">CSE · SOUTHEAST UNIVERSITY · YEAR 1, SEM 1</div>
+    <h1 class="reveal r2">SADAB AREFIN<br><span class="glitch-word">AHON</span></h1>
+    <p class="sub reveal r3">Trying to understand every layer of how technology works — the connections between systems, how they're built, how they think — and pointing all of it at problems worth solving.</p>
+    <div class="meta-row reveal r4">
+      <span class="meta-chip">DHAKA, BANGLADESH</span>
+      <span class="meta-chip">B. 01.06.2006</span>
+      <span class="meta-chip">CSE — 1ST YEAR</span>
     </div>
-    <p class="fine">Sadab Arefin Ahon — b. 1 June 2006, Dhaka, Bangladesh.</p>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2>Where the focus is</h2>
+      <span class="section-num mono">01 / TECH</span>
+    </div>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <span class="num">A</span>
+        <h3>Connections</h3>
+        <p>How separate technologies link into one system — where a signal, a call, or a piece of data actually travels once it leaves your hands.</p>
+      </div>
+      <div class="focus-card">
+        <span class="num">B</span>
+        <h3>Construction</h3>
+        <p>How software and hardware get built and made to function — from architecture decisions down to the code that runs them.</p>
+      </div>
+      <div class="focus-card">
+        <span class="num">C</span>
+        <h3>Algorithms &amp; Data</h3>
+        <p>The logic underneath everything — how information is structured, processed, and turned into something that behaves intelligently.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2>The mission</h2>
+      <span class="section-num mono">02 / GOAL</span>
+    </div>
+    <div class="mission-crit">
+      <div class="crit">
+        <span class="tag">CRITERION 01</span>
+        <h3>Solve a major problem</h3>
+      </div>
+      <div class="crit">
+        <span class="tag">CRITERION 02</span>
+        <h3>Either affordable, or genuinely top-tier</h3>
+      </div>
+      <div class="crit">
+        <span class="tag">CRITERION 03</span>
+        <h3>Built to leave a generational legacy</h3>
+      </div>
+    </div>
+    <div class="concept-grid">
+      <div class="concept"><span class="name">Direct neural-code connection</span><span class="idx">CONCEPT_01</span></div>
+      <div class="concept"><span class="name">Biological data center</span><span class="idx">CONCEPT_02</span></div>
+      <div class="concept"><span class="name">Subconscious background processing</span><span class="idx">CONCEPT_03</span></div>
+      <div class="concept"><span class="name">Bio-digital firewall</span><span class="idx">CONCEPT_04</span></div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <h2>Academic record</h2>
+      <span class="section-num mono">03 / ACADEMICS</span>
+    </div>
+    <div class="stat-strip">
+      <div class="stat">
+        <span class="val">5.00</span>
+        <span class="label">SSC GPA — IDEAL SCHOOL &amp; COLLEGE, 2023</span>
+      </div>
+      <div class="stat">
+        <span class="val">4.42</span>
+        <span class="label">HSC GPA — DHAKA IMPERIAL COLLEGE, 2025</span>
+      </div>
+      <div class="stat">
+        <span class="val">CSE</span>
+        <span class="label">DEPARTMENT — SOUTHEAST UNIVERSITY</span>
+      </div>
+      <div class="stat">
+        <span class="val">Y1·S1</span>
+        <span class="label">CURRENT STANDING — FIRST SEMESTER</span>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tline-row">
+        <div class="yr mono">2023</div>
+        <div class="body">
+          <h4>SSC — Ideal School and College</h4>
+          <p>Graduated with GPA 5.</p>
+        </div>
+      </div>
+      <div class="tline-row">
+        <div class="yr mono">2025</div>
+        <div class="body">
+          <h4>HSC — Dhaka Imperial College</h4>
+          <p>Graduated with GPA 4.42.</p>
+        </div>
+      </div>
+      <div class="tline-row">
+        <div class="yr mono">2025—</div>
+        <div class="body">
+          <h4>B.Sc. in CSE — Southeast University</h4>
+          <p>Currently in the first semester of first year.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section beyond">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Beyond code</h2>
+        <span class="section-num mono">04 / OUTSIDE CSE</span>
+      </div>
+      <div class="hobby-list">
+        <div class="hobby">
+          <span class="role">Most-practiced</span>
+          <h4>Art &amp; Comics</h4>
+          <p>The hobby that's gotten the most hours — drawing and comic work.</p>
+        </div>
+        <div class="hobby">
+          <span class="role">Leadership</span>
+          <h4>Organizing Secretary, Art Club</h4>
+          <p>Dhaka Imperial College — ran the club's day-to-day organizing.</p>
+        </div>
+        <div class="hobby">
+          <span class="role">Explored</span>
+          <h4>Music Production</h4>
+          <p>Tried producing as a side interest.</p>
+        </div>
+        <div class="hobby">
+          <span class="role">Explored</span>
+          <h4>Writing</h4>
+          <p>Spent time writing, alongside the other hobbies.</p>
+        </div>
+        <div class="hobby">
+          <span class="role">Explored</span>
+          <h4>Filmmaking</h4>
+          <p>Dabbled in filmmaking as well — a jack-of-all-trades spread.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="big">Sadab Arefin Ahon</div>
+    <div class="foot-meta">
+      <span>DHAKA, BANGLADESH</span>
+      <span>CSE · SOUTHEAST UNIVERSITY</span>
+      <span id="year"></span>
+    </div>
   </div>
 </footer>
 
 <script>
-(function(){
-  var canvas = document.getElementById('network');
-  var ctx = canvas.getContext('2d');
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var w, h, nodes = [];
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var NODE_COUNT = 26;
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-  function resize(){
-    var rect = canvas.getBoundingClientRect();
-    w = rect.width; h = rect.height;
-    canvas.width = w * dpr; canvas.height = h * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function initNodes(){
-    nodes = [];
-    for (var i = 0; i < NODE_COUNT; i++){
-      nodes.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
-        r: Math.random() * 1.6 + 1.2
-      });
-    }
-  }
-
-  function step(){
-    ctx.clearRect(0, 0, w, h);
-    var maxDist = Math.min(w, h) * 0.32;
-
-    for (var i = 0; i < nodes.length; i++){
-      var n = nodes[i];
-      n.x += n.vx; n.y += n.vy;
-      if (n.x < 0 || n.x > w) n.vx *= -1;
-      if (n.y < 0 || n.y > h) n.vy *= -1;
-    }
-
-    for (var i = 0; i < nodes.length; i++){
-      for (var j = i + 1; j < nodes.length; j++){
-        var a = nodes[i], b = nodes[j];
-        var dx = a.x - b.x, dy = a.y - b.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < maxDist){
-          var alpha = (1 - dist / maxDist) * 0.35;
-          ctx.strokeStyle = 'rgba(178,58,92,' + alpha.toFixed(3) + ')';
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    for (var i = 0; i < nodes.length; i++){
-      var n = nodes[i];
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(238,236,232,0.55)';
-      ctx.fill();
-    }
-
-    if (!reduceMotion) requestAnimationFrame(step);
-  }
-
-  function start(){
-    resize();
-    initNodes();
-    step();
-  }
-
-  window.addEventListener('resize', function(){
-    resize();
-    initNodes();
-    if (reduceMotion) step();
+  const toggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  toggle.addEventListener('click', () => {
+    const isLight = root.getAttribute('data-theme') === 'light';
+    root.setAttribute('data-theme', isLight ? 'dark' : 'light');
   });
 
-  start();
-})();
+  // subtle glitch pulse on the accent word, non-looping-annoying: triggers every ~7s
+  const gw = document.querySelector('.glitch-word');
+  function glitchPulse(){
+    gw.style.textShadow = '2px 0 var(--gold), -2px 0 var(--rust)';
+    setTimeout(()=>{ gw.style.textShadow = 'none'; }, 140);
+  }
+  setInterval(glitchPulse, 6500);
 </script>
 
 </body>
