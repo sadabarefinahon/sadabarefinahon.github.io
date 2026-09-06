@@ -3,464 +3,463 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sadab Arefin Ahon</title>
+<title>Sadab Arefin Ahon — CSE / Southeast University</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
+  /* ============ TOKENS ============ */
   :root{
-    --bg-deep:#17171a;
-    --bg-panel:#201f23;
-    --bg-panel-2:#28272c;
-    --burgundy:#7a1f2b;
-    --burgundy-bright:#b13246;
-    --burgundy-glow:rgba(177,50,70,0.35);
-    --text-primary:#ecE9e3;
-    --text-muted:#9a989c;
-    --line:#38373c;
-    --radius:14px;
+    --burgundy:#4A0E1E;
+    --wine:#6E1423;
+    --brick:#7A2E1D;
+    --mauve:#A85C6B;
+    --plum:#2E0A16;
+
+    --bg:#EDE6DB;
+    --bg-2:#E2D9C8;
+    --ink:#16110F;
+    --ink-soft:#4a423c;
+    --line:#16110F;
+    --card-bg:#f6f1e7;
+    --shadow-hard: 6px 6px 0 var(--ink);
+    --shadow-hard-sm: 4px 4px 0 var(--ink);
+    --grain-opacity: 0.05;
+    --accent: var(--burgundy);
+    --accent-2: var(--brick);
+    --accent-3: var(--mauve);
+
+    --ff-display: 'Archivo Black', 'Space Grotesk', sans-serif;
+    --ff-body: 'Space Grotesk', sans-serif;
+    --ff-mono: 'JetBrains Mono', monospace;
+  }
+
+  html.dark{
+    --bg:#120D0C;
+    --bg-2:#1B1210;
+    --ink:#EDE6DB;
+    --ink-soft:#c9beb1;
+    --line:#EDE6DB;
+    --card-bg:#1c1412;
+    --shadow-hard: 6px 6px 0 var(--wine);
+    --shadow-hard-sm: 4px 4px 0 var(--wine);
+    --grain-opacity: 0.08;
+    --accent: #C9455F;
+    --accent-2: #C9683F;
+    --accent-3: #D89AA6;
   }
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--bg-deep);
-    color:var(--text-primary);
-    font-family:'Inter',sans-serif;
-    line-height:1.6;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--ff-body);
+    -webkit-font-smoothing:antialiased;
+    transition:background .4s ease, color .4s ease;
     overflow-x:hidden;
   }
-  h1,h2,h3,.brand,.nav-cta{
-    font-family:'Poppins',sans-serif;
-    font-weight:800;
-    letter-spacing:-0.01em;
-  }
-  a{color:inherit;text-decoration:none;}
-  img,canvas{display:block;max-width:100%;}
-  ::selection{background:var(--burgundy);color:#fff;}
+  ::selection{ background:var(--accent); color:var(--bg); }
 
   @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
   }
 
-  /* ---------- layout helpers ---------- */
-  .wrap{max-width:1100px;margin:0 auto;padding:0 32px;}
-  section{padding:120px 0;position:relative;}
-  @media (max-width:700px){
-    section{padding:80px 0;}
-    .wrap{padding:0 22px;}
+  /* grain overlay */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:9999; mix-blend-mode:overlay;
+    opacity:var(--grain-opacity);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s ease, transform .8s ease;}
-  .reveal.in{opacity:1;transform:translateY(0);}
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 clamp(20px,5vw,64px); }
 
-  /* ---------- nav ---------- */
+  h1,h2,h3{ font-family:var(--ff-display); line-height:0.95; margin:0; letter-spacing:-0.01em; }
+  a{ color:inherit; }
+  p{ color:var(--ink-soft); line-height:1.6; margin:0; }
+
+  .label{
+    font-family:var(--ff-mono); font-size:0.78rem; font-weight:600;
+    color:var(--accent); letter-spacing:0.02em;
+  }
+
+  /* ============ HEADER ============ */
   header{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    background:rgba(23,23,26,0.78);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:500;
+    background:var(--bg);
+    border-bottom:3px solid var(--line);
+    transition:background .4s ease, border-color .4s ease;
   }
-  nav{
-    max-width:1100px;margin:0 auto;padding:18px 32px;
-    display:flex;align-items:center;justify-content:space-between;
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px clamp(20px,5vw,64px);
   }
-  .brand{font-size:1.05rem;color:var(--text-primary);}
-  .brand span{color:var(--burgundy-bright);}
-  .nav-links{display:flex;gap:30px;font-size:0.92rem;font-weight:500;color:var(--text-muted);}
-  .nav-links a{transition:color .25s ease;}
-  .nav-links a:hover{color:var(--text-primary);}
-  .nav-toggle{display:none;background:none;border:none;color:var(--text-primary);font-size:1.5rem;cursor:pointer;}
-  @media (max-width:760px){
-    .nav-links{
-      position:absolute;top:100%;left:0;right:0;
-      flex-direction:column;gap:0;
-      background:var(--bg-panel);
-      border-bottom:1px solid var(--line);
-      max-height:0;overflow:hidden;
-      transition:max-height .35s ease;
-    }
-    .nav-links.open{max-height:320px;}
-    .nav-links a{padding:16px 32px;border-top:1px solid var(--line);}
-    .nav-toggle{display:block;}
+  .mark{
+    font-family:var(--ff-display); font-size:1.15rem;
+    display:flex; align-items:center; gap:10px;
   }
+  .mark .dot{ width:12px; height:12px; background:var(--accent); display:inline-block; }
+  .navlinks{ display:flex; gap:28px; font-family:var(--ff-mono); font-size:0.85rem; font-weight:600; }
+  .navlinks a{ text-decoration:none; position:relative; padding-bottom:3px; }
+  .navlinks a::after{
+    content:''; position:absolute; left:0; bottom:0; height:3px; width:0; background:var(--accent);
+    transition:width .25s ease;
+  }
+  .navlinks a:hover::after{ width:100%; }
+  @media (max-width:720px){ .navlinks{ display:none; } }
 
-  /* ---------- hero ---------- */
+  /* theme toggle */
+  .toggle{
+    display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none;
+    border:3px solid var(--line); padding:6px 10px; background:var(--card-bg);
+    box-shadow:var(--shadow-hard-sm);
+  }
+  .toggle-track{
+    width:38px; height:18px; border:2px solid var(--line); position:relative; background:var(--bg-2);
+  }
+  .toggle-thumb{
+    position:absolute; top:1px; left:1px; width:12px; height:12px; background:var(--accent);
+    transition:left .25s ease;
+  }
+  html.dark .toggle-thumb{ left:21px; }
+  .toggle span{ font-family:var(--ff-mono); font-size:0.72rem; font-weight:600; }
+
+  /* ============ HERO ============ */
   .hero{
-    min-height:100vh;
-    display:flex;align-items:center;
-    position:relative;
-    padding-top:90px;
+    position:relative; padding:clamp(60px,10vw,120px) 0 80px; overflow:hidden;
+    border-bottom:3px solid var(--line);
   }
-  #net{position:absolute;inset:0;z-index:0;opacity:0.55;}
-  .hero-inner{position:relative;z-index:1;}
-  .eyebrow-line{
-    display:flex;align-items:center;gap:12px;
-    color:var(--text-muted);font-size:0.95rem;margin-bottom:22px;
+  .hero-bg{
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:radial-gradient(var(--ink) 1px, transparent 1px);
+    background-size:16px 16px;
+    -webkit-mask-image:linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+    mask-image:linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+    opacity:0.08;
   }
-  .eyebrow-line .dot{width:8px;height:8px;border-radius:50%;background:var(--burgundy-bright);box-shadow:0 0 12px var(--burgundy-glow);}
-  h1.name{
-    font-size:clamp(2.6rem, 6.5vw, 5rem);
-    line-height:1.03;
-    margin:0 0 26px;
-  }
-  h1.name .accent{color:var(--burgundy-bright);}
-  .hero p.lede{
-    font-size:clamp(1.05rem,2vw,1.3rem);
-    color:var(--text-muted);
-    max-width:640px;
-    margin:0 0 34px;
-  }
-  .hero-meta{display:flex;gap:28px;flex-wrap:wrap;font-size:0.92rem;color:var(--text-muted);}
-  .hero-meta strong{color:var(--text-primary);font-weight:600;}
+  .hero-inner{ position:relative; z-index:1; }
+  .eyebrow-row{ display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+  .eyebrow-row .line{ height:3px; flex:1; background:var(--line); max-width:60px; }
 
-  .scroll-cue{
-    position:absolute;bottom:38px;left:32px;z-index:1;
-    display:flex;align-items:center;gap:10px;
-    color:var(--text-muted);font-size:0.82rem;
+  .hero h1{
+    font-size:clamp(2.6rem, 9vw, 6.4rem);
+    text-transform:uppercase;
   }
-  .scroll-cue .bar{width:1px;height:36px;background:linear-gradient(var(--burgundy-bright),transparent);animation:pulse 1.8s ease-in-out infinite;}
-  @keyframes pulse{0%,100%{opacity:.25;}50%{opacity:1;}}
-
-  /* ---------- section heads ---------- */
-  .head-row{display:flex;align-items:baseline;gap:18px;margin-bottom:52px;flex-wrap:wrap;}
-  .head-row h2{font-size:clamp(1.7rem,3.5vw,2.4rem);margin:0;}
-  .head-row .head-index{font-size:0.95rem;color:var(--burgundy-bright);font-weight:600;font-family:'Inter',sans-serif;}
-  .section-sub{color:var(--text-muted);max-width:620px;margin-top:-30px;margin-bottom:50px;}
-
-  /* ---------- tech section ---------- */
-  .tech-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:start;}
-  @media (max-width:820px){.tech-grid{grid-template-columns:1fr;}}
-  .tech-copy p{color:var(--text-muted);font-size:1.05rem;margin:0 0 20px;max-width:52ch;}
-  .tech-copy strong{color:var(--text-primary);}
-  .interest-list{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);}
-  .interest-item{
-    padding:20px 0;border-bottom:1px solid var(--line);
-    display:flex;justify-content:space-between;align-items:center;gap:16px;
+  .hero h1 .row{ overflow:hidden; }
+  .hero h1 span.reveal{
+    display:block;
+    transform:translateY(110%);
+    animation:riseUp .8s cubic-bezier(.16,.9,.25,1) forwards;
   }
-  .interest-item .label{font-weight:600;}
-  .interest-item .tag{font-size:0.82rem;color:var(--text-muted);}
+  .hero h1 .row:nth-child(1) span{ animation-delay:.05s; }
+  .hero h1 .row:nth-child(2) span{ animation-delay:.18s; color:var(--accent); }
+  @keyframes riseUp{ to{ transform:translateY(0); } }
 
-  /* ---------- academics timeline ---------- */
-  .timeline{position:relative;padding-left:36px;}
+  .hero-sub{ margin-top:26px; display:flex; flex-wrap:wrap; gap:14px 28px; align-items:baseline; max-width:640px; }
+  .hero-sub p{ font-size:1.05rem; max-width:520px; }
+  .role-chip{
+    font-family:var(--ff-mono); font-size:0.82rem; font-weight:600;
+    border:2px solid var(--line); padding:6px 12px; background:var(--card-bg);
+    box-shadow:var(--shadow-hard-sm);
+    animation:fadeIn .6s ease .5s both;
+  }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .hero-blob{
+    position:absolute; right:clamp(0px,4vw,60px); top:20%; width:min(38vw,340px); z-index:0; opacity:0.9;
+    animation:spinSlow 40s linear infinite;
+  }
+  @keyframes spinSlow{ to{ transform:rotate(360deg); } }
+  @media (max-width:900px){ .hero-blob{ display:none; } }
+
+  /* ============ SECTION SHELL ============ */
+  section{ padding:clamp(56px,9vw,110px) 0; border-bottom:3px solid var(--line); position:relative; }
+  section:last-of-type{ border-bottom:none; }
+  .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:48px; flex-wrap:wrap; }
+  .sec-head h2{ font-size:clamp(1.9rem,4.4vw,3.2rem); text-transform:uppercase; }
+  .sec-num{ font-family:var(--ff-mono); font-size:0.85rem; color:var(--ink-soft); }
+
+  /* ============ GOAL SECTION ============ */
+  .goal-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:3px solid var(--line); }
+  .goal-cell{ padding:32px 26px; border-right:3px solid var(--line); position:relative; background:var(--card-bg); transition:background .3s ease; }
+  .goal-cell:last-child{ border-right:none; }
+  .goal-cell:hover{ background:var(--accent); }
+  .goal-cell:hover *{ color:var(--bg); }
+  .goal-cell .num{ font-family:var(--ff-mono); font-size:0.8rem; color:var(--accent); display:block; margin-bottom:14px; }
+  .goal-cell:hover .num{ color:var(--bg); }
+  .goal-cell h3{ font-size:1.3rem; text-transform:uppercase; margin-bottom:10px; }
+  .goal-cell p{ font-size:0.92rem; }
+  @media (max-width:820px){ .goal-grid{ grid-template-columns:1fr; } .goal-cell{ border-right:none; border-bottom:3px solid var(--line); } .goal-cell:last-child{ border-bottom:none; } }
+
+  .ticker-wrap{ margin-top:42px; border:3px solid var(--line); overflow:hidden; background:var(--ink); position:relative; }
+  html.dark .ticker-wrap{ background:var(--wine); }
+  .ticker{ display:flex; gap:60px; white-space:nowrap; padding:16px 0; animation:tickerMove 26s linear infinite; width:max-content; }
+  .ticker span{ font-family:var(--ff-mono); font-weight:600; color:var(--bg); font-size:0.95rem; display:flex; align-items:center; gap:14px; }
+  .ticker span::before{ content:'◆'; color:var(--accent-3); }
+  @keyframes tickerMove{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  /* ============ TIMELINE ============ */
+  .timeline{ position:relative; margin-top:12px; }
   .timeline::before{
-    content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;
-    background:var(--line);
+    content:''; position:absolute; left:18px; top:6px; bottom:6px; width:3px; background:var(--line);
+    transform-origin:top; transform:scaleY(0); transition:transform 1s ease;
   }
-  .tl-fill{
-    position:absolute;left:6px;top:6px;width:2px;background:var(--burgundy-bright);
-    height:0%;transition:height 1.4s ease;
-  }
-  .tl-fill.in{height:100%;}
-  .tl-item{position:relative;padding-bottom:52px;}
-  .tl-item:last-child{padding-bottom:0;}
-  .tl-item::before{
-    content:"";position:absolute;left:-36px;top:4px;width:14px;height:14px;border-radius:50%;
-    background:var(--bg-deep);border:2px solid var(--burgundy-bright);
-  }
-  .tl-year{color:var(--burgundy-bright);font-weight:600;font-size:0.92rem;margin-bottom:6px;}
-  .tl-item h3{margin:0 0 8px;font-size:1.25rem;}
-  .tl-item p{margin:0;color:var(--text-muted);}
+  .timeline.inview::before{ transform:scaleY(1); }
+  .t-item{ position:relative; padding-left:56px; margin-bottom:44px; opacity:0; transform:translateX(-14px); transition:opacity .6s ease, transform .6s ease; }
+  .t-item.show{ opacity:1; transform:translateX(0); }
+  .t-item:last-child{ margin-bottom:0; }
+  .t-dot{ position:absolute; left:9px; top:4px; width:20px; height:20px; background:var(--bg); border:3px solid var(--accent); }
+  .t-item.current .t-dot{ background:var(--accent); }
+  .t-year{ font-family:var(--ff-mono); font-size:0.85rem; color:var(--accent); font-weight:600; }
+  .t-item h3{ font-size:1.35rem; margin:6px 0 8px; text-transform:uppercase; }
+  .t-item p{ max-width:560px; font-size:0.95rem; }
+  .t-tag{ display:inline-block; margin-top:10px; font-family:var(--ff-mono); font-size:0.75rem; border:2px solid var(--line); padding:3px 9px; }
 
-  /* ---------- long game / goals ---------- */
-  .criteria-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:60px;}
-  @media (max-width:700px){.criteria-row{grid-template-columns:1fr;}}
-  .criteria-cell{background:var(--bg-panel);padding:30px 26px;}
-  .criteria-cell h4{margin:0 0 10px;font-size:1.05rem;font-family:'Poppins',sans-serif;font-weight:700;}
-  .criteria-cell p{margin:0;color:var(--text-muted);font-size:0.95rem;}
+  /* ============ TECH / INTERESTS ============ */
+  .chip-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+  .chip{ border:3px solid var(--line); background:var(--card-bg); padding:22px 20px; box-shadow:var(--shadow-hard-sm); transition:transform .2s ease, box-shadow .2s ease; position:relative; overflow:hidden; }
+  .chip:hover{ transform:translate(-3px,-3px); box-shadow:8px 8px 0 var(--accent); }
+  .chip h3{ font-size:1.05rem; text-transform:uppercase; margin-bottom:8px; }
+  .chip p{ font-size:0.88rem; }
+  .chip .glyph{ position:absolute; right:10px; top:8px; font-family:var(--ff-mono); font-size:2.2rem; color:var(--bg-2); font-weight:700; z-index:0; }
+  .chip > *{ position:relative; z-index:1; }
 
-  .concept-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
-  @media (max-width:700px){.concept-grid{grid-template-columns:1fr;}}
-  .concept-card{
-    background:var(--bg-panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:30px;
-    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-  }
-  .concept-card:hover{
-    transform:translateY(-6px);
-    border-color:var(--burgundy-bright);
-    box-shadow:0 18px 40px -20px var(--burgundy-glow);
-  }
-  .concept-card h3{margin:0 0 12px;font-size:1.15rem;}
-  .concept-card p{margin:0;color:var(--text-muted);font-size:0.95rem;}
+  .goal-note{ margin-top:40px; border-left:4px solid var(--accent); padding-left:20px; max-width:680px; }
 
-  /* ---------- about ---------- */
-  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-  @media (max-width:820px){.about-grid{grid-template-columns:1fr;}}
-  .mbti-badge{
-    display:inline-flex;align-items:center;gap:10px;
-    border:1px solid var(--burgundy-bright);border-radius:100px;
-    padding:8px 18px;font-weight:600;font-size:0.9rem;color:var(--burgundy-bright);
-    margin-bottom:22px;
-  }
-  .about-copy p{color:var(--text-muted);font-size:1.05rem;max-width:54ch;margin:0 0 18px;}
-  .about-copy strong{color:var(--text-primary);}
+  /* ============ BEYOND / HOBBIES (quieter) ============ */
+  #beyond{ background:var(--bg-2); transition:background .4s ease; }
+  .beyond-intro{ max-width:640px; margin-bottom:40px; }
+  .beyond-intro .label{ display:block; margin-bottom:10px; }
+  .hobby-row{ display:flex; flex-wrap:wrap; gap:0; border-top:2px solid var(--line); }
+  .hobby-item{ flex:1 1 220px; padding:20px 18px; border-bottom:2px solid var(--line); border-right:2px solid var(--line); }
+  .hobby-item:last-child{ border-right:none; }
+  .hobby-item h4{ font-family:var(--ff-display); font-size:0.98rem; text-transform:uppercase; margin:0 0 6px; }
+  .hobby-item p{ font-size:0.85rem; }
+  .hobby-item .weight{ font-family:var(--ff-mono); font-size:0.7rem; color:var(--accent); }
 
-  /* ---------- hobbies (quiet, secondary) ---------- */
-  .hobbies{background:var(--bg-panel);}
-  .hobby-strip{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
-    border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
-  }
-  @media (max-width:820px){.hobby-strip{grid-template-columns:repeat(2,1fr);}}
-  .hobby-cell{background:var(--bg-panel-2);padding:28px 22px;}
-  .hobby-cell .h-rank{font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;}
-  .hobby-cell h4{margin:0 0 8px;font-size:1.05rem;font-family:'Poppins',sans-serif;font-weight:700;}
-  .hobby-cell p{margin:0;color:var(--text-muted);font-size:0.9rem;}
+  /* ============ ACADEMICS STRIP ============ */
+  .stat-strip{ display:grid; grid-template-columns:repeat(3,1fr); border:3px solid var(--line); text-align:center; }
+  .stat{ padding:26px 12px; border-right:3px solid var(--line); }
+  .stat:last-child{ border-right:none; }
+  .stat b{ display:block; font-family:var(--ff-display); font-size:2rem; color:var(--accent); }
+  .stat span{ font-family:var(--ff-mono); font-size:0.75rem; color:var(--ink-soft); }
+  @media (max-width:600px){ .stat-strip{ grid-template-columns:1fr; } .stat{ border-right:none; border-bottom:3px solid var(--line); } .stat:last-child{ border-bottom:none; } }
 
-  footer{
-    padding:60px 0 50px;text-align:center;color:var(--text-muted);
-    border-top:1px solid var(--line);font-size:0.9rem;
-  }
-  footer .fname{color:var(--text-primary);font-weight:600;}
+  /* ============ FOOTER / CONTACT ============ */
+  footer{ padding:70px 0 40px; }
+  .foot-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:40px; }
+  .foot-head h2{ font-size:clamp(2rem,6vw,4rem); text-transform:uppercase; }
+  .foot-meta{ display:flex; gap:30px; flex-wrap:wrap; font-family:var(--ff-mono); font-size:0.8rem; color:var(--ink-soft); margin-top:30px; }
+  .foot-meta div b{ display:block; color:var(--ink); font-family:var(--ff-body); font-weight:700; }
+
+  ::-webkit-scrollbar{ width:12px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:var(--accent); border:2px solid var(--bg); }
 </style>
 </head>
 <body>
 
+<div class="grain"></div>
+
 <header>
-  <nav>
-    <div class="brand">Sadab<span>.</span></div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
-    <div class="nav-links" id="navLinks">
-      <a href="#tech">Tech &amp; CSE</a>
-      <a href="#academics">Academics</a>
-      <a href="#longgame">The Long Game</a>
-      <a href="#about">About</a>
-      <a href="#hobbies">Hobbies</a>
+  <div class="nav">
+    <div class="mark"><span class="dot"></span>SADAB.CSE</div>
+    <nav class="navlinks">
+      <a href="#goal">Focus</a>
+      <a href="#path">Path</a>
+      <a href="#stack">Interests</a>
+      <a href="#beyond">Beyond</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="toggle" id="themeToggle" role="button" aria-label="Toggle dark mode">
+      <span id="toggleLabel">LIGHT</span>
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
     </div>
-  </nav>
+  </div>
 </header>
 
 <section class="hero">
-  <canvas id="net"></canvas>
+  <div class="hero-bg"></div>
+  <svg class="hero-blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="70" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 10"/>
+    <circle cx="100" cy="100" r="94" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="2 6"/>
+    <path d="M100 30 L100 170 M30 100 L170 100" stroke="var(--line)" stroke-width="1.5" opacity="0.4"/>
+    <rect x="82" y="82" width="36" height="36" fill="var(--accent)" opacity="0.85" transform="rotate(45 100 100)"/>
+  </svg>
   <div class="wrap hero-inner">
-    <div class="eyebrow-line"><span class="dot"></span>Dhaka, Bangladesh</div>
-    <h1 class="name">Sadab Arefin<br><span class="accent">Ahon</span></h1>
-    <p class="lede">First-year Computer Science &amp; Engineering student at Southeast University. I care less about what a piece of technology does, and more about how it was wired together to do it.</p>
-    <div class="hero-meta">
-      <div><strong>CSE</strong> &middot; Southeast University</div>
-      <div><strong>Semester 1</strong> &middot; Year 1</div>
-      <div>Born <strong>June 1, 2006</strong></div>
+    <div class="eyebrow-row">
+      <span class="label">DHAKA, BANGLADESH — B.2006</span>
+      <span class="line"></span>
+    </div>
+    <h1>
+      <span class="row"><span class="reveal">SADAB AREFIN</span></span>
+      <span class="row"><span class="reveal">AHON</span></span>
+    </h1>
+    <div class="hero-sub">
+      <span class="role-chip">CSE · SOUTHEAST UNIVERSITY · SEM 1</span>
+      <p>First-year computer science student in Dhaka, wiring together a decade of scattered hobbies into a single, serious pursuit: building the systems tech hasn't built yet.</p>
     </div>
   </div>
-  <div class="scroll-cue"><div class="bar"></div>Scroll</div>
 </section>
 
-<section id="tech">
+<section id="goal">
   <div class="wrap">
-    <div class="head-row reveal"><span class="head-index">01</span><h2>What actually pulls me in</h2></div>
-    <div class="tech-grid">
-      <div class="tech-copy reveal">
-        <p>I'm drawn to <strong>tech as a system</strong>, not tech as a feature. The part that keeps me up is the connective tissue &mdash; how one layer of a machine hands off to the next, how a program is actually built underneath the interface, why an algorithm behaves the way it does once real data hits it.</p>
-        <p>That curiosity is why CSE felt inevitable rather than chosen. I'm one semester into the degree at Southeast University, and I'm treating this stretch as the point where the hobbies step aside and the real building starts.</p>
+    <div class="sec-head">
+      <h2>What I'm building toward</h2>
+      <span class="sec-num">01 / FOCUS</span>
+    </div>
+    <div class="goal-grid">
+      <div class="goal-cell">
+        <span class="num">01</span>
+        <h3>Solve something real</h3>
+        <p>Not a feature, not a toy project — a build aimed at a problem that actually slows people down.</p>
       </div>
-      <div class="interest-list reveal">
-        <div class="interest-item"><span class="label">Systems &amp; connections</span><span class="tag">how pieces talk to each other</span></div>
-        <div class="interest-item"><span class="label">Programming &amp; architecture</span><span class="tag">how things get built</span></div>
-        <div class="interest-item"><span class="label">Algorithms</span><span class="tag">how logic behaves at scale</span></div>
-        <div class="interest-item"><span class="label">Data</span><span class="tag">the raw material of everything above</span></div>
-        <div class="interest-item"><span class="label">The wider cyberworld</span><span class="tag">the whole stack, end to end</span></div>
+      <div class="goal-cell">
+        <span class="num">02</span>
+        <h3>Affordable or high-five</h3>
+        <p>Every corner or every peak. Either it reaches everyone, or it pushes the ceiling of what's possible — no comfortable middle.</p>
       </div>
+      <div class="goal-cell">
+        <span class="num">03</span>
+        <h3>Generational legacy</h3>
+        <p>Built to outlast the trend cycle it was born in — infrastructure, not a feature update.</p>
+      </div>
+    </div>
+    <div class="ticker-wrap">
+      <div class="ticker" id="tickerTrack">
+        <span>Direct neural-code connection</span>
+        <span>Biological data centers</span>
+        <span>Subconscious background processing</span>
+        <span>Bio-digital firewalls</span>
+        <span>Direct neural-code connection</span>
+        <span>Biological data centers</span>
+        <span>Subconscious background processing</span>
+        <span>Bio-digital firewalls</span>
+      </div>
+    </div>
+    <div class="goal-note">
+      <p>These are the shape of ideas I keep circling, not a roadmap — early markers for where the useful, high-five, generational work might live.</p>
     </div>
   </div>
 </section>
 
-<section id="academics">
+<section id="path">
   <div class="wrap">
-    <div class="head-row reveal"><span class="head-index">02</span><h2>The academic path so far</h2></div>
-    <div class="timeline reveal" id="timeline">
-      <div class="tl-fill" id="tlFill"></div>
-      <div class="tl-item">
-        <div class="tl-year">2023</div>
-        <h3>SSC &mdash; Ideal School and College</h3>
-        <p>Finished with a GPA of 5, the top of the scale.</p>
+    <div class="sec-head">
+      <h2>Academic path</h2>
+      <span class="sec-num">02 / PATH</span>
+    </div>
+    <div class="stat-strip" style="margin-bottom:56px;">
+      <div class="stat"><b>5.00</b><span>SSC GPA · IDEAL SCHOOL &amp; COLLEGE · 2023</span></div>
+      <div class="stat"><b>4.42</b><span>HSC GPA · DHAKA IMPERIAL COLLEGE · 2025</span></div>
+      <div class="stat"><b>Y1·S1</b><span>CSE · SOUTHEAST UNIVERSITY · CURRENT</span></div>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <span class="t-year">2023</span>
+        <h3>SSC — Ideal School and College</h3>
+        <p>Finished secondary school with a GPA of 5.00.</p>
       </div>
-      <div class="tl-item">
-        <div class="tl-year">2025</div>
-        <h3>HSC &mdash; Dhaka Imperial College</h3>
-        <p>Finished with a GPA of 4.42. Also served as organizing secretary of the college's art club, running events alongside coursework.</p>
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <span class="t-year">2023 – 2025</span>
+        <h3>Organizing Secretary, Art Club</h3>
+        <p>Ran the art club at Dhaka Imperial College alongside coursework — the same period the sketchbooks and comic pages were piling up.</p>
+        <span class="t-tag">DHAKA IMPERIAL COLLEGE</span>
       </div>
-      <div class="tl-item">
-        <div class="tl-year">Now</div>
-        <h3>B.Sc. in CSE &mdash; Southeast University</h3>
-        <p>Admitted into the Computer Science &amp; Engineering department. Currently in the first semester of the first year &mdash; early days, deliberately serious about them.</p>
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <span class="t-year">2025</span>
+        <h3>HSC — Dhaka Imperial College</h3>
+        <p>Completed higher secondary with a GPA of 4.42.</p>
+      </div>
+      <div class="t-item current">
+        <div class="t-dot"></div>
+        <span class="t-year">2025 – PRESENT</span>
+        <h3>B.Sc in CSE — Southeast University</h3>
+        <p>Currently in the first semester of first year — the point where the hobbies get benched and the systems thinking takes over.</p>
+        <span class="t-tag">IN PROGRESS</span>
       </div>
     </div>
   </div>
 </section>
 
-<section id="longgame">
+<section id="stack">
   <div class="wrap">
-    <div class="head-row reveal"><span class="head-index">03</span><h2>The long game</h2></div>
-    <p class="section-sub reveal">Whatever I end up building, it has to clear three bars at once.</p>
-
-    <div class="criteria-row reveal">
-      <div class="criteria-cell">
-        <h4>Solves something that matters</h4>
-        <p>Not a convenience feature &mdash; a real, major problem worth the effort.</p>
-      </div>
-      <div class="criteria-cell">
-        <h4>Affordable, or genuinely top-tier</h4>
-        <p>No comfortable middle. It either reaches everyone, or it pushes the ceiling of what's possible.</p>
-      </div>
-      <div class="criteria-cell">
-        <h4>Built to outlast me</h4>
-        <p>A generational legacy &mdash; something still standing, and still mattering, long after.</p>
-      </div>
+    <div class="sec-head">
+      <h2>What pulls me into tech</h2>
+      <span class="sec-num">03 / INTERESTS</span>
     </div>
-
-    <div class="concept-grid reveal">
-      <div class="concept-card">
-        <h3>Direct neural-code connection</h3>
-        <p>A direct interface between human thought and written code, cutting out the translation layer between intention and instruction.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Biological data center</h3>
-        <p>Storage and computation grown or run on biological substrates instead of pure silicon.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Subconscious background processing</h3>
-        <p>Offloading routine cognitive work to run quietly in the background of the mind, the way a computer runs a background process.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Bio-digital firewall</h3>
-        <p>A defense layer at the boundary where biological systems and digital systems start to merge.</p>
-      </div>
+    <div class="chip-grid">
+      <div class="chip"><span class="glyph">01</span><h3>Connections between systems</h3><p>How separate technologies snap together — the seams are usually where the interesting problems live.</p></div>
+      <div class="chip"><span class="glyph">02</span><h3>How things are actually built</h3><p>Less interested in what a tool does than in why it was built that way, layer by layer.</p></div>
+      <div class="chip"><span class="glyph">03</span><h3>Algorithms</h3><p>The logic underneath the interface — the part that decides what's actually possible.</p></div>
+      <div class="chip"><span class="glyph">04</span><h3>Data</h3><p>What gets collected, how it moves, and what it enables once it's structured right.</p></div>
+      <div class="chip"><span class="glyph">05</span><h3>The cyberworld at large</h3><p>Not one specialty — the whole networked stack, end to end.</p></div>
+      <div class="chip"><span class="glyph">06</span><h3>Programming as craft</h3><p>Writing something that functions is one thing; writing something that's built well is another.</p></div>
     </div>
   </div>
 </section>
 
-<section id="about">
-  <div class="wrap about-grid">
-    <div class="about-copy reveal">
-      <div class="mbti-badge">ENTP</div>
-      <h2 style="margin:0 0 22px;font-size:clamp(1.6rem,3vw,2.1rem);">Jack of all trades, still choosing a master</h2>
-      <p>For most of my life I've been the person trying a bit of everything: <strong>art and comics</strong> most of all, with detours into <strong>music production, writing, and filmmaking</strong> &mdash; all of it kept as hobby rather than career.</p>
-      <p>That range is exactly why the CSE focus feels like a turning point, not a rejection of the rest. It's the one direction where the systems-thinking, the curiosity, and the stubbornness to finish something finally all point the same way.</p>
-    </div>
-    <div class="reveal">
-      <div class="interest-list">
-        <div class="interest-item"><span class="label">Primary craft</span><span class="tag">art &amp; comics</span></div>
-        <div class="interest-item"><span class="label">Leadership</span><span class="tag">organizing secretary, college art club</span></div>
-        <div class="interest-item"><span class="label">Personality type</span><span class="tag">ENTP</span></div>
-        <div class="interest-item"><span class="label">Base</span><span class="tag">Dhaka, Bangladesh</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="hobbies" id="hobbies">
+<section id="beyond">
   <div class="wrap">
-    <div class="head-row reveal"><span class="head-index">04</span><h2>Everything before the focus</h2></div>
-    <p class="section-sub reveal">Kept deliberately quiet here &mdash; these are the hobbies the CSE path is now taking priority over, not the headline.</p>
-    <div class="hobby-strip reveal">
-      <div class="hobby-cell">
-        <div class="h-rank">Most time spent</div>
-        <h4>Art &amp; comics</h4>
-        <p>The one that stuck the longest and the hardest.</p>
-      </div>
-      <div class="hobby-cell">
-        <div class="h-rank">Tried seriously</div>
-        <h4>Music production</h4>
-        <p>Built and arranged tracks for the sake of it.</p>
-      </div>
-      <div class="hobby-cell">
-        <div class="h-rank">Tried seriously</div>
-        <h4>Writing</h4>
-        <p>Was, for a stretch, genuinely down bad for it.</p>
-      </div>
-      <div class="hobby-cell">
-        <div class="h-rank">Tried seriously</div>
-        <h4>Filmmaking</h4>
-        <p>The shortest-lived of the four, still explored fully.</p>
-      </div>
+    <div class="sec-head">
+      <h2>Beyond the CSE track</h2>
+      <span class="sec-num">04 / BEYOND</span>
+    </div>
+    <div class="beyond-intro">
+      <span class="label">JACK OF SEVERAL TRADES</span>
+      <p>Before tech took the lead, there was a decade of picking things up: mostly art and comics, with music production, writing, and filmmaking tried along the way. None of it is gone — it's just no longer the main pursuit.</p>
+    </div>
+    <div class="hobby-row">
+      <div class="hobby-item"><h4>Art &amp; Comics</h4><span class="weight">MOST ACTIVE</span><p>The longest-running hobby, and the one that led to running the art club in college.</p></div>
+      <div class="hobby-item"><h4>Music Production</h4><span class="weight">EXPLORED</span><p>Tried and picked up as a side pursuit.</p></div>
+      <div class="hobby-item"><h4>Writing</h4><span class="weight">EXPLORED</span><p>Another thread pulled at, alongside the visual work.</p></div>
+      <div class="hobby-item"><h4>Filmmaking</h4><span class="weight">EXPLORED</span><p>The fourth hobby in the mix — never the focus, always in the toolkit.</p></div>
     </div>
   </div>
 </section>
 
-<footer>
+<footer id="contact">
   <div class="wrap">
-    <span class="fname">Sadab Arefin Ahon</span> &middot; CSE, Southeast University &middot; Dhaka, Bangladesh
+    <div class="foot-head">
+      <h2>Let's build<br>something that lasts.</h2>
+    </div>
+    <div class="foot-meta">
+      <div><b>Location</b>Dhaka, Bangladesh</div>
+      <div><b>Studying</b>CSE, Southeast University</div>
+      <div><b>Status</b>Year 1, Semester 1</div>
+    </div>
   </div>
 </footer>
 
 <script>
-  // mobile nav toggle
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  // Theme toggle
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const label = document.getElementById('toggleLabel');
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(prefersDark){ root.classList.add('dark'); label.textContent = 'DARK'; }
+  toggle.addEventListener('click', () => {
+    root.classList.toggle('dark');
+    label.textContent = root.classList.contains('dark') ? 'DARK' : 'LIGHT';
+  });
 
-  // scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
+  // Timeline scroll reveal
+  const timeline = document.getElementById('timeline');
+  const items = document.querySelectorAll('.t-item');
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('show'); } });
+  }, { threshold: 0.3 });
+  items.forEach(i => io.observe(i));
+
+  const tio = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ timeline.classList.add('inview'); } });
   }, { threshold: 0.15 });
-  revealEls.forEach(el => io.observe(el));
-
-  // timeline fill
-  const tlFill = document.getElementById('tlFill');
-  const tlObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) tlFill.classList.add('in'); });
-  }, { threshold: 0.2 });
-  tlObserver.observe(document.getElementById('timeline'));
-
-  // hero network animation — nodes drifting, links drawn between close ones
-  const canvas = document.getElementById('net');
-  const ctx = canvas.getContext('2d');
-  const hero = document.querySelector('.hero');
-  let W, H, nodes;
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function resize(){
-    W = canvas.width = hero.offsetWidth;
-    H = canvas.height = hero.offsetHeight;
-  }
-  function initNodes(){
-    const count = Math.max(28, Math.floor((W*H)/26000));
-    nodes = Array.from({length: count}, () => ({
-      x: Math.random()*W,
-      y: Math.random()*H,
-      vx: (Math.random()-0.5)*0.25,
-      vy: (Math.random()-0.5)*0.25
-    }));
-  }
-  function step(){
-    ctx.clearRect(0,0,W,H);
-    for(const n of nodes){
-      n.x += n.vx; n.y += n.vy;
-      if(n.x<0||n.x>W) n.vx*=-1;
-      if(n.y<0||n.y>H) n.vy*=-1;
-    }
-    for(let i=0;i<nodes.length;i++){
-      for(let j=i+1;j<nodes.length;j++){
-        const dx = nodes[i].x-nodes[j].x, dy = nodes[i].y-nodes[j].y;
-        const dist = Math.sqrt(dx*dx+dy*dy);
-        if(dist < 150){
-          ctx.strokeStyle = `rgba(177,50,70,${0.22*(1-dist/150)})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-    for(const n of nodes){
-      ctx.fillStyle = 'rgba(236,233,227,0.55)';
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 1.6, 0, Math.PI*2);
-      ctx.fill();
-    }
-    if(!prefersReduced) requestAnimationFrame(step);
-  }
-  resize();
-  initNodes();
-  step();
-  window.addEventListener('resize', () => { resize(); initNodes(); });
+  tio.observe(timeline);
 </script>
+
 </body>
 </html>
